@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pekáreň Topec — Pub Quiz</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg:       #1a1208;
@@ -26,8 +26,8 @@
     body {
       background: var(--bg);
       color: var(--cream);
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 16px;
+      font-family: 'Crimson Pro', serif;
+      font-size: 17px;
       min-height: 100vh;
     }
 
@@ -43,28 +43,43 @@
       padding: 2rem 1rem 1.5rem;
       border-bottom: 1px solid var(--border);
       position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 260px;
+      height: 260px;
+      background: url('https://www.topec.sk/data/topec.sk/images/tmp/topec_logo_a61464ad54a9b7bce74c.svg') center/contain no-repeat;
+      opacity: 0.06;
+      pointer-events: none;
     }
     header .kicker {
+      position: relative;
+      z-index: 1;
       font-family: 'IM Fell English', serif;
       font-style: italic;
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       letter-spacing: 0.12em;
       margin-bottom: 0.4rem;
     }
     header h1 {
+      position: relative;
+      z-index: 1;
       font-family: 'Playfair Display', serif;
-      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
       color: var(--gold-lt);
       letter-spacing: 0.02em;
       line-height: 1.1;
     }
-    header .sub {
-      font-family: 'IM Fell English', serif;
+    header h1 em {
       font-style: italic;
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 0.4rem;
+      color: var(--gold);
+      font-weight: 400;
     }
     .ornament { color: var(--gold); margin: 0 0.5rem; }
 
@@ -77,8 +92,9 @@
       padding: 0.6rem 1.2rem;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       color: var(--muted);
+      font-family: 'Crimson Pro', serif;
     }
     .member-bar strong { color: var(--cream); }
     .member-bar button {
@@ -142,7 +158,7 @@
       font-style: italic;
     }
     .quiz-meta {
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       color: var(--muted);
       margin-bottom: 1rem;
       display: flex;
@@ -164,7 +180,7 @@
       border: 1px solid;
       cursor: pointer;
       font-size: 0.82rem;
-      font-family: 'Source Sans 3', sans-serif;
+      font-family: 'Crimson Pro', serif;
       font-weight: 600;
       letter-spacing: 0.04em;
       transition: all 0.15s;
@@ -180,7 +196,7 @@
 
     .rsvp-tally {
       margin-left: auto;
-      font-size: 0.78rem;
+      font-size: 0.84rem;
       color: var(--muted);
       font-style: italic;
     }
@@ -193,7 +209,7 @@
       gap: 0.35rem;
     }
     .attendee-chip {
-      font-size: 0.72rem;
+      font-size: 0.78rem;
       padding: 0.15rem 0.55rem;
       border-radius: 2px;
       border: 1px solid;
@@ -221,8 +237,8 @@
       padding: 0.3rem 0.8rem;
       border-radius: var(--radius);
       cursor: pointer;
-      font-size: 0.78rem;
-      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.84rem;
+      font-family: 'Crimson Pro', serif;
       transition: all 0.2s;
     }
     .admin-toggle:hover { border-color: var(--gold); color: var(--gold); }
@@ -247,19 +263,27 @@
       margin-bottom: 1rem;
     }
     .form-row label {
-      font-size: 0.78rem;
-      color: var(--muted);
+      font-size: 0.82rem;
+      color: var(--muted-lt, #baa880);
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
       margin-bottom: 0.2rem;
       display: block;
     }
+    /* fix calendar icon */
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      filter: invert(0.7) sepia(1) saturate(2) hue-rotate(5deg);
+      cursor: pointer;
+    }
+
     .form-row input, .form-row textarea {
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--cream);
       padding: 0.5rem 0.7rem;
       border-radius: var(--radius);
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.9rem;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
       width: 100%;
       transition: border-color 0.2s;
     }
@@ -273,8 +297,8 @@
       color: var(--cream);
       padding: 0.5rem 0.7rem;
       border-radius: var(--radius);
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.9rem;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
       width: 100%;
       cursor: pointer;
     }
@@ -325,7 +349,7 @@
     }
     .modal p {
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: 0.95rem;
       font-family: 'IM Fell English', serif;
       font-style: italic;
       margin-bottom: 1.4rem;
@@ -342,8 +366,8 @@
       padding: 0.65rem 0.5rem;
       border-radius: var(--radius);
       cursor: pointer;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.88rem;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1rem;
       transition: all 0.15s;
     }
     .member-btn:hover { border-color: var(--gold); color: var(--gold-lt); }
@@ -358,7 +382,7 @@
       color: var(--bg);
       padding: 0.6rem 1.4rem;
       border-radius: var(--radius);
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 600;
       transition: transform 0.3s ease;
       z-index: 200;
@@ -368,7 +392,7 @@
 
     /* ── past quiz badge ── */
     .past-badge {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       color: var(--muted);
       border: 1px solid var(--border);
       padding: 0.1rem 0.45rem;
@@ -401,9 +425,8 @@
 <div class="top-rule"></div>
 
 <header>
-  <div class="kicker">Est. 2024 <span class="ornament">✦</span> Bratislava</div>
-  <h1>Pekáreň Topec</h1>
-  <div class="sub"><em>Pub Quiz Society</em></div>
+  <div class="kicker">Est. 2024 <span class="ornament">✦</span> Bratislava <span class="ornament">✦</span> Pub Quiz</div>
+  <h1><em>Pekáreň</em> Topec</h1>
 </header>
 
 <div class="member-bar" id="memberBar">
@@ -578,7 +601,12 @@
     const maybe = qRsvps.filter(r => r.status === 'maybe').map(r => r.member_name);
 
     const d = new Date(q.date);
-    const dateStr = d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const dd = String(d.getDate()).padStart(2,'0');
+    const mmm = months[d.getMonth()];
+    const yy = String(d.getFullYear()).slice(-2);
+    const weekday = d.toLocaleDateString('en-GB', { weekday:'short' });
+    const dateStr = weekday + ' ' + dd + '-' + mmm + '-' + yy;
     const timeStr = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
 
     const chips = [...yes.map(n=>`<span class="attendee-chip yes">${n}</span>`),
