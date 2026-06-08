@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pekáreň Topec — Pub Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IM+Fell+English:ital@0;1&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:       #1a1208;
+      --surface:  #241a0d;
+      --border:   #5c3d1e;
+      --gold:     #c9922a;
+      --gold-lt:  #e8b84b;
+      --cream:    #f2e8d5;
+      --muted:    #a08c6e;
+      --yes:      #4a7c45;
+      --no:       #7c3f3f;
+      --maybe:    #6b5a2e;
+      --radius:   4px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 16px;
+      min-height: 100vh;
+    }
+
+    /* ── decorative top rule ── */
+    .top-rule {
+      height: 6px;
+      background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 12px, var(--border) 12px, var(--border) 14px);
+    }
+
+    /* ── header ── */
+    header {
+      text-align: center;
+      padding: 2rem 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    header .kicker {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--gold-lt);
+      letter-spacing: 0.02em;
+      line-height: 1.1;
+    }
+    header .sub {
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 0.4rem;
+    }
+    .ornament { color: var(--gold); margin: 0 0.5rem; }
+
+    /* ── member chip ── */
+    .member-bar {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .member-bar strong { color: var(--cream); }
+    .member-bar button {
+      background: none;
+      border: none;
+      color: var(--gold);
+      cursor: pointer;
+      font-size: 0.78rem;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    /* ── layout ── */
+    main { max-width: 680px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+    /* ── section heading ── */
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.4rem;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ── quiz card ── */
+    .quiz-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .quiz-card:hover { border-color: var(--gold); }
+
+    .quiz-card .quiz-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+    .quiz-card .quiz-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: var(--cream);
+    }
+    .quiz-card .quiz-date {
+      font-size: 0.78rem;
+      color: var(--gold);
+      background: rgba(201,146,42,0.12);
+      border: 1px solid var(--border);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      white-space: nowrap;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+    }
+    .quiz-meta {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .quiz-meta span::before { margin-right: 0.3rem; }
+
+    /* ── rsvp buttons ── */
+    .rsvp-row {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .rsvp-btn {
+      padding: 0.38rem 1rem;
+      border-radius: var(--radius);
+      border: 1px solid;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: all 0.15s;
+      background: transparent;
+    }
+    .rsvp-btn.yes   { border-color: var(--yes);   color: #7ebb78; }
+    .rsvp-btn.no    { border-color: var(--no);    color: #d17070; }
+    .rsvp-btn.maybe { border-color: var(--maybe); color: #c4aa5a; }
+    .rsvp-btn.yes.active   { background: var(--yes);   color: #fff; }
+    .rsvp-btn.no.active    { background: var(--no);    color: #fff; }
+    .rsvp-btn.maybe.active { background: var(--maybe); color: #fff; }
+    .rsvp-btn:hover:not(.active) { opacity: 0.75; }
+
+    .rsvp-tally {
+      margin-left: auto;
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ── attendee chips ── */
+    .attendees {
+      margin-top: 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+    .attendee-chip {
+      font-size: 0.72rem;
+      padding: 0.15rem 0.55rem;
+      border-radius: 2px;
+      border: 1px solid;
+    }
+    .attendee-chip.yes   { border-color: var(--yes);   color: #7ebb78; background: rgba(74,124,69,0.12); }
+    .attendee-chip.no    { border-color: var(--no);    color: #d17070; background: rgba(124,63,63,0.12); }
+    .attendee-chip.maybe { border-color: var(--maybe); color: #c4aa5a; background: rgba(107,90,46,0.12); }
+
+    /* ── empty state ── */
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      padding: 3rem 1rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius);
+    }
+
+    /* ── admin panel ── */
+    .admin-toggle {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.3rem 0.8rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.78rem;
+      font-family: 'Source Sans 3', sans-serif;
+      transition: all 0.2s;
+    }
+    .admin-toggle:hover { border-color: var(--gold); color: var(--gold); }
+
+    .admin-panel {
+      background: var(--surface);
+      border: 1px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      margin-bottom: 2rem;
+    }
+    .admin-panel h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+    .form-row label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 0.2rem;
+      display: block;
+    }
+    .form-row input, .form-row textarea {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      padding: 0.5rem 0.7rem;
+      border-radius: var(--radius);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .form-row input:focus, .form-row textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+    .btn-primary {
+      background: var(--gold);
+      color: var(--bg);
+      border: none;
+      padding: 0.55rem 1.4rem;
+      border-radius: var(--radius);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: var(--gold-lt); }
+
+    /* ── member picker modal ── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10,7,3,0.88);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 1rem;
+    }
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 380px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: var(--gold-lt);
+      margin-bottom: 0.4rem;
+    }
+    .modal p {
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      margin-bottom: 1.4rem;
+    }
+    .member-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+    .member-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--cream);
+      padding: 0.65rem 0.5rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88rem;
+      transition: all 0.15s;
+    }
+    .member-btn:hover { border-color: var(--gold); color: var(--gold-lt); }
+
+    /* ── notification ── */
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--gold);
+      color: var(--bg);
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--radius);
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: transform 0.3s ease;
+      z-index: 200;
+      pointer-events: none;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── past quiz badge ── */
+    .past-badge {
+      font-size: 0.7rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.1rem 0.45rem;
+      border-radius: 2px;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+    }
+    .result-line {
+      margin-top: 0.6rem;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+
+    .bottom-rule {
+      height: 3px;
+      background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 8px, transparent 8px, transparent 12px);
+      margin-top: 3rem;
+    }
+
+    @media (max-width: 480px) {
+      .form-grid { grid-template-columns: 1fr; }
+      .quiz-card .quiz-header { flex-direction: column; gap: 0.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-rule"></div>
+
+<header>
+  <div class="kicker">Est. 2024 <span class="ornament">✦</span> Bratislava</div>
+  <h1>Pekáreň Topec</h1>
+  <div class="sub"><em>Pub Quiz Society</em></div>
+</header>
+
+<div class="member-bar" id="memberBar">
+  <span>Playing as: <strong id="memberName">—</strong></span>
+  <button onclick="changeMember()">change</button>
+</div>
+
+<main>
+  <!-- Admin panel -->
+  <div style="display:flex; justify-content:flex-end; margin-bottom:1.2rem;">
+    <button class="admin-toggle" onclick="toggleAdmin()">＋ New Quiz</button>
+  </div>
+
+  <div class="admin-panel" id="adminPanel" style="display:none;">
+    <h3>Add a Quiz Night</h3>
+    <div class="form-row">
+      <label>Title</label>
+      <input type="text" id="qTitle" placeholder="e.g. June Quiz Night" />
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label>Date & Time</label>
+        <input type="datetime-local" id="qDate" />
+      </div>
+      <div class="form-row">
+        <label>Venue</label>
+        <input type="text" id="qVenue" placeholder="e.g. The Blue Goose" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Notes <em style="font-style:italic;font-size:0.75rem;">(optional)</em></label>
+      <input type="text" id="qNotes" placeholder="e.g. Bring cash, starts sharp at 19:00" />
+    </div>
+    <button class="btn-primary" onclick="addQuiz()">Post Quiz Night</button>
+  </div>
+
+  <!-- Upcoming -->
+  <div class="section-heading">
+    <span>Upcoming</span>
+  </div>
+  <div id="upcomingList"></div>
+
+  <!-- Past -->
+  <div class="section-heading" style="margin-top:2rem;">
+    <span>Past Quizzes</span>
+  </div>
+  <div id="pastList"></div>
+
+</main>
+
+<div class="bottom-rule"></div>
+
+<!-- Member picker -->
+<div class="overlay" id="memberOverlay">
+  <div class="modal">
+    <h2>Who are you?</h2>
+    <p>Pick your name to track RSVPs across sessions.</p>
+    <div class="member-grid" id="memberGrid"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────
+  // Replace with your actual Supabase URL and anon key
+  const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+  const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+  const MEMBERS = [
+    'Tesk', 'Member 2', 'Member 3', 'Member 4', 'Member 5', 'Member 6'
+  ];
+  // ────────────────────────────────────────────────────────
+
+  let currentMember = localStorage.getItem('pt_member') || null;
+  let quizzes = [];
+  let rsvps = [];
+
+  // ── SUPABASE HELPERS ─────────────────────────────────────
+  async function sbGet(table, params = '') {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+    });
+    return r.json();
+  }
+
+  async function sbPost(table, body) {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=representation'
+      },
+      body: JSON.stringify(body)
+    });
+    return r.json();
+  }
+
+  async function sbPatch(table, id, body) {
+    await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'PATCH',
+      headers: {
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+  }
+
+  async function sbDelete(table, id) {
+    await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+      method: 'DELETE',
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+    });
+  }
+
+  // ── INIT ─────────────────────────────────────────────────
+  async function init() {
+    if (!currentMember) {
+      showMemberPicker();
+    } else {
+      document.getElementById('memberName').textContent = currentMember;
+    }
+    await loadData();
+  }
+
+  async function loadData() {
+    quizzes = await sbGet('quizzes', 'order=date.asc');
+    rsvps   = await sbGet('rsvps', 'select=*');
+    render();
+  }
+
+  // ── RENDER ────────────────────────────────────────────────
+  function render() {
+    const now = new Date();
+    const upcoming = quizzes.filter(q => new Date(q.date) >= now);
+    const past     = quizzes.filter(q => new Date(q.date) < now);
+
+    document.getElementById('upcomingList').innerHTML =
+      upcoming.length ? upcoming.map(renderCard).join('') : emptyState('No upcoming quizzes — check back soon.');
+
+    document.getElementById('pastList').innerHTML =
+      past.length ? past.slice().reverse().map(q => renderCard(q, true)).join('') : emptyState('No past quizzes yet.');
+  }
+
+  function renderCard(q, isPast = false) {
+    const qRsvps = rsvps.filter(r => r.quiz_id === q.id);
+    const myRsvp = qRsvps.find(r => r.member_name === currentMember);
+    const myStatus = myRsvp ? myRsvp.status : null;
+
+    const yes   = qRsvps.filter(r => r.status === 'yes').map(r => r.member_name);
+    const no    = qRsvps.filter(r => r.status === 'no').map(r => r.member_name);
+    const maybe = qRsvps.filter(r => r.status === 'maybe').map(r => r.member_name);
+
+    const d = new Date(q.date);
+    const dateStr = d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+    const timeStr = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+
+    const chips = [...yes.map(n=>`<span class="attendee-chip yes">${n}</span>`),
+                   ...maybe.map(n=>`<span class="attendee-chip maybe">${n}?</span>`),
+                   ...no.map(n=>`<span class="attendee-chip no">${n}</span>`)].join('');
+
+    const rsvpSection = isPast ? '' : `
+      <div class="rsvp-row">
+        <button class="rsvp-btn yes   ${myStatus==='yes'   ? 'active':''}" onclick="rsvp('${q.id}','yes')">  ✓ Going</button>
+        <button class="rsvp-btn maybe ${myStatus==='maybe' ? 'active':''}" onclick="rsvp('${q.id}','maybe')">~ Maybe</button>
+        <button class="rsvp-btn no    ${myStatus==='no'    ? 'active':''}" onclick="rsvp('${q.id}','no')">  ✕ Can't</button>
+        <span class="rsvp-tally">${yes.length} going · ${maybe.length} maybe</span>
+      </div>`;
+
+    const resultLine = isPast && q.result ? `<div class="result-line">🏆 ${q.result}</div>` : '';
+
+    return `
+    <div class="quiz-card">
+      <div class="quiz-header">
+        <div>
+          <div class="quiz-title">${q.title} ${isPast ? '<span class="past-badge">past</span>' : ''}</div>
+        </div>
+        <div class="quiz-date">${dateStr} · ${timeStr}</div>
+      </div>
+      <div class="quiz-meta">
+        ${q.venue ? `<span>📍 ${q.venue}</span>` : ''}
+        ${q.notes ? `<span>📝 ${q.notes}</span>` : ''}
+      </div>
+      ${rsvpSection}
+      ${resultLine}
+      ${chips ? `<div class="attendees">${chips}</div>` : ''}
+    </div>`;
+  }
+
+  function emptyState(msg) {
+    return `<div class="empty">${msg}</div>`;
+  }
+
+  // ── RSVP ─────────────────────────────────────────────────
+  async function rsvp(quizId, status) {
+    if (!currentMember) { showMemberPicker(); return; }
+    const existing = rsvps.find(r => r.quiz_id === quizId && r.member_name === currentMember);
+    if (existing) {
+      if (existing.status === status) {
+        await sbDelete('rsvps', existing.id);
+      } else {
+        await sbPatch('rsvps', existing.id, { status });
+      }
+    } else {
+      await sbPost('rsvps', { quiz_id: quizId, member_name: currentMember, status });
+    }
+    await loadData();
+    toast(status === 'yes' ? "You're in! 🍺" : status === 'maybe' ? "Maybe... fair enough." : "Can't make it — noted.");
+  }
+
+  // ── ADD QUIZ ──────────────────────────────────────────────
+  async function addQuiz() {
+    const title  = document.getElementById('qTitle').value.trim();
+    const date   = document.getElementById('qDate').value;
+    const venue  = document.getElementById('qVenue').value.trim();
+    const notes  = document.getElementById('qNotes').value.trim();
+    if (!title || !date) { toast('Title and date are required.'); return; }
+    await sbPost('quizzes', { title, date, venue, notes });
+    document.getElementById('qTitle').value = '';
+    document.getElementById('qDate').value  = '';
+    document.getElementById('qVenue').value = '';
+    document.getElementById('qNotes').value = '';
+    toggleAdmin();
+    await loadData();
+    toast('Quiz night posted! 🎉');
+  }
+
+  // ── ADMIN TOGGLE ──────────────────────────────────────────
+  function toggleAdmin() {
+    const p = document.getElementById('adminPanel');
+    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // ── MEMBER PICKER ─────────────────────────────────────────
+  function showMemberPicker() {
+    const grid = document.getElementById('memberGrid');
+    grid.innerHTML = MEMBERS.map(m =>
+      `<button class="member-btn" onclick="selectMember('${m}')">${m}</button>`
+    ).join('');
+    document.getElementById('memberOverlay').style.display = 'flex';
+  }
+
+  function selectMember(name) {
+    currentMember = name;
+    localStorage.setItem('pt_member', name);
+    document.getElementById('memberName').textContent = name;
+    document.getElementById('memberOverlay').style.display = 'none';
+    loadData();
+  }
+
+  function changeMember() {
+    showMemberPicker();
+  }
+
+  // ── TOAST ─────────────────────────────────────────────────
+  function toast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  init();
+</script>
+</body>
+</html>
