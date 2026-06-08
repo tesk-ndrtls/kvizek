@@ -37,7 +37,6 @@
       font-family: 'SpecialElite', serif;
       font-size: 16px;
       min-height: 100vh;
-      position: relative;
     }
 
     body::before {
@@ -51,49 +50,100 @@
       z-index: 0;
     }
 
-    .top-stripe, header, .member-bar, main, .bottom-rule, .overlay, .toast { position: relative; z-index: 1; }
+    .top-stripe, header, .nav-bar, .page, .overlay, .toast { position: relative; z-index: 1; }
 
     .top-stripe { height: 5px; background: linear-gradient(90deg, #7A263A 50%, #1BB1E7 50%); }
 
+    /* ── NAV BAR ── */
+    .nav-bar {
+      display: flex; align-items: center;
+      padding: 0.4rem 1rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      gap: 0.8rem;
+    }
+    .burger-btn {
+      background: none; border: none; color: var(--cream);
+      cursor: pointer; font-size: 1.2rem; padding: 0.2rem 0.4rem;
+      line-height: 1; transition: color 0.2s;
+    }
+    .burger-btn:hover { color: var(--sky); }
+    .nav-tabs { display: flex; gap: 0; flex: 1; justify-content: center; }
+    .nav-tab {
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: var(--muted); cursor: pointer;
+      font-family: 'SpecialElite', serif; font-size: 0.82rem;
+      letter-spacing: 0.1em; padding: 0.4rem 1rem;
+      transition: all 0.2s; text-transform: uppercase;
+    }
+    .nav-tab.active { color: var(--cream); border-bottom-color: var(--sky); }
+    .nav-tab:hover:not(.active) { color: var(--cream); }
+    .member-pill {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.78rem; color: var(--muted);
+      margin-left: auto;
+    }
+    .member-pill strong { color: var(--sky); }
+    .member-pill button {
+      background: none; border: none; color: var(--yellow);
+      cursor: pointer; font-size: 0.72rem; text-decoration: underline;
+      padding: 0; font-family: 'SpecialElite', serif;
+    }
+
+    /* ── BURGER MENU ── */
+    .burger-menu {
+      position: fixed; top: 0; left: -280px; width: 280px; height: 100vh;
+      background: var(--surface); border-right: 1px solid var(--border);
+      z-index: 200; transition: left 0.3s ease;
+      padding: 1.5rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem;
+    }
+    .burger-menu.open { left: 0; }
+    .burger-menu h3 {
+      font-family: 'UncialAntiqua', serif; font-size: 1.2rem;
+      color: var(--sky); margin-bottom: 0.8rem; padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .burger-item {
+      background: none; border: none; color: var(--cream);
+      cursor: pointer; font-family: 'SpecialElite', serif;
+      font-size: 0.95rem; padding: 0.6rem 0.4rem;
+      text-align: left; border-bottom: 1px solid rgba(42,48,72,0.4);
+      transition: color 0.15s; letter-spacing: 0.04em;
+    }
+    .burger-item:hover { color: var(--sky); }
+    .burger-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 199; display: none;
+    }
+    .burger-overlay.open { display: block; }
+
+    /* ── HEADER ── */
     header {
-      text-align: center;
-      padding: 2.4rem 1rem 2rem;
+      text-align: center; padding: 2rem 1rem 1.8rem;
       border-bottom: 1px solid var(--border);
       background: linear-gradient(180deg, rgba(122,38,58,0.12) 0%, transparent 100%);
       position: relative; overflow: hidden;
     }
     .hammers { position: absolute; top: 0.9rem; right: 1.1rem; opacity: 0.9; }
     .hammers img { display: block; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.4)); }
-
     header .kicker {
-      font-family: 'SpecialElite', serif;
-      color: var(--muted); font-size: 0.82rem; letter-spacing: 0.18em; margin-bottom: 0.5rem;
+      font-family: 'SpecialElite', serif; color: var(--muted);
+      font-size: 0.8rem; letter-spacing: 0.18em; margin-bottom: 0.5rem;
     }
     header .kicker .dot { color: var(--yellow); margin: 0 0.4rem; opacity: 0.7; }
-
     header h1 {
       font-family: 'UncialAntiqua', serif;
-      font-size: clamp(3rem, 10vw, 5.5rem);
+      font-size: clamp(2.4rem, 8.4vw, 4.65rem);
       letter-spacing: 0.03em; line-height: 1.1;
     }
     header h1 .w1 { color: #7A263A; }
     header h1 .w2 { color: #1BB1E7; }
 
-    .member-bar {
-      display: flex; align-items: center; justify-content: flex-end;
-      gap: 0.5rem; padding: 0.55rem 1.2rem;
-      background: var(--surface); border-bottom: 1px solid var(--border);
-      font-size: 0.82rem; color: var(--muted);
-    }
-    .member-bar strong { color: var(--sky); }
-    .member-bar button {
-      background: none; border: none; color: var(--yellow);
-      cursor: pointer; font-size: 0.78rem; text-decoration: underline;
-      padding: 0; font-family: 'SpecialElite', serif;
-    }
+    /* ── PAGES ── */
+    .page { display: none; max-width: 660px; margin: 0 auto; padding: 2rem 1rem 5rem; }
+    .page.active { display: block; }
 
-    main { max-width: 660px; margin: 0 auto; padding: 2rem 1rem 5rem; }
-
+    /* ── SECTION HEADING ── */
     .section-heading {
       font-family: 'SpecialElite', serif; font-size: 0.78rem;
       color: var(--yellow); opacity: 0.65;
@@ -105,23 +155,22 @@
       background: linear-gradient(90deg, rgba(243,212,89,0.3), transparent);
     }
 
+    /* ── QUIZ CARD ── */
     .quiz-card {
       background: var(--card); border: 1px solid var(--border);
       border-radius: var(--radius); padding: 1.3rem 1.5rem;
       margin-bottom: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s;
-      position: relative;
+      position: relative; cursor: pointer;
     }
-    .quiz-card:hover {
-      border-color: var(--claret);
-      box-shadow: 0 4px 24px rgba(122,38,58,0.15), 0 1px 12px rgba(27,177,231,0.08);
-    }
+    .quiz-card:hover { border-color: var(--claret); box-shadow: 0 4px 24px rgba(122,38,58,0.15); }
+    .quiz-card.expanded { border-color: var(--sky); cursor: default; }
     .quiz-card-top {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      gap: 1rem; margin-bottom: 0.7rem;
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem;
     }
     .quiz-title {
       font-family: 'SpecialElite', serif; font-size: 1.15rem;
-      color: var(--cream); line-height: 1.3; padding-right: 3.5rem;
+      color: var(--cream); line-height: 1.3;
     }
     .quiz-date-badge {
       background: rgba(27,177,231,0.1); border: 1px solid rgba(27,177,231,0.3);
@@ -129,26 +178,45 @@
       font-family: 'SpecialElite', serif; font-size: 0.78rem;
       color: var(--sky); white-space: nowrap; flex-shrink: 0;
     }
-    .quiz-meta {
-      font-size: 0.82rem; color: var(--muted);
-      margin-bottom: 1rem; display: flex; gap: 1.2rem; flex-wrap: wrap;
+    .quiz-venue {
+      font-size: 0.8rem; color: var(--muted); margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.4rem;
     }
+    .quiz-venue a { color: var(--sky); text-decoration: none; }
+    .quiz-venue a:hover { text-decoration: underline; }
+    .quiz-expand-hint {
+      font-size: 0.72rem; color: var(--muted); text-align: right;
+      margin-top: 0.3rem; font-style: italic;
+    }
+    .quiz-card.expanded .quiz-expand-hint { display: none; }
 
-    .card-actions {
-      position: absolute; top: 0.9rem; right: 1rem;
-      display: flex; gap: 0.3rem; opacity: 0; transition: opacity 0.2s;
+    /* ── CARD EXPANDED ACTIONS ── */
+    .card-expanded {
+      display: none; border-top: 1px solid var(--border);
+      margin-top: 0.8rem; padding-top: 0.8rem;
     }
-    .quiz-card:hover .card-actions { opacity: 1; }
-    .card-action-btn {
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--muted); width: 26px; height: 26px;
-      border-radius: var(--radius-sm); cursor: pointer; font-size: 0.75rem;
-      display: flex; align-items: center; justify-content: center; transition: all 0.15s;
-    }
-    .card-action-btn:hover { border-color: var(--sky); color: var(--sky); }
-    .card-action-btn.delete:hover { border-color: #b03030; color: #e06060; }
+    .quiz-card.expanded .card-expanded { display: block; }
 
-    .rsvp-row { display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: center; }
+    .card-action-row {
+      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem;
+    }
+    .btn-card-action {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      padding: 0.3rem 0.8rem; border-radius: 20px; cursor: pointer;
+      font-family: 'SpecialElite', serif; font-size: 0.76rem;
+      transition: all 0.15s; letter-spacing: 0.04em;
+    }
+    .btn-card-action:hover { border-color: var(--sky); color: var(--sky); }
+    .btn-card-action.danger:hover { border-color: #b03030; color: #e06060; }
+    .btn-card-close {
+      margin-left: auto; background: none; border: none;
+      color: var(--muted); cursor: pointer; font-size: 0.76rem;
+      font-family: 'SpecialElite', serif; transition: color 0.15s;
+    }
+    .btn-card-close:hover { color: var(--cream); }
+
+    /* ── RSVP ── */
+    .rsvp-row { display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.8rem; }
     .rsvp-btn {
       padding: 0.35rem 1rem; border-radius: 20px; border: 1px solid;
       cursor: pointer; font-size: 0.8rem; font-family: 'SpecialElite', serif;
@@ -163,7 +231,7 @@
     .rsvp-btn:hover:not(.active) { opacity: 0.72; }
     .rsvp-tally { margin-left: auto; font-size: 0.78rem; color: var(--muted); font-style: italic; }
 
-    .attendees { margin-top: 0.85rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .attendees { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.3rem; }
     .attendee-chip {
       font-size: 0.74rem; padding: 0.12rem 0.65rem;
       border-radius: 20px; border: 1px solid; font-family: 'SpecialElite', serif;
@@ -172,14 +240,88 @@
     .attendee-chip.no    { border-color: #7a2a2a; color: #dd6666; background: rgba(110,30,30,0.12); }
     .attendee-chip.maybe { border-color: #6a5a20; color: #ccaa44; background: rgba(74,61,16,0.12); }
 
-    .result-line { margin-top: 0.7rem; font-style: italic; color: var(--yellow); font-size: 0.9rem; }
-    .past-badge {
-      font-size: 0.65rem; color: var(--muted); border: 1px solid var(--border);
-      padding: 0.1rem 0.45rem; border-radius: 3px; font-style: italic;
-      vertical-align: middle; margin-left: 0.3rem;
+    /* ── BILL SECTION ── */
+    .bill-section {
+      background: rgba(27,177,231,0.05); border: 1px solid rgba(27,177,231,0.15);
+      border-radius: var(--radius-sm); padding: 0.8rem 1rem; margin-top: 0.8rem;
     }
+    .bill-section h4 {
+      font-family: 'SpecialElite', serif; font-size: 0.78rem;
+      color: var(--sky); letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .bill-info { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .bill-info strong { color: var(--cream); }
+    .bill-paid-list { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.6rem; }
+    .bill-paid-chip {
+      font-size: 0.74rem; padding: 0.1rem 0.6rem;
+      border-radius: 20px; border: 1px solid #2a7a45;
+      color: #6dcc88; background: rgba(30,110,58,0.12);
+      font-family: 'SpecialElite', serif;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .bill-unpaid-btn {
+      background: none; border: none; color: #e06060;
+      cursor: pointer; font-size: 0.65rem; padding: 0;
+      line-height: 1; transition: color 0.15s;
+    }
+    .bill-unpaid-btn:hover { color: #ff4444; }
+    .btn-paid {
+      background: rgba(30,110,58,0.15); border: 1px solid #2a7a45;
+      color: #6dcc88; padding: 0.35rem 1rem; border-radius: 20px;
+      cursor: pointer; font-family: 'SpecialElite', serif; font-size: 0.8rem;
+      transition: all 0.15s;
+    }
+    .btn-paid:hover { background: rgba(30,110,58,0.3); }
+    .btn-paid.already { opacity: 0.5; cursor: default; }
+    .bill-form { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.6rem; }
+    .bill-form-row { display: flex; gap: 0.5rem; }
+    .bill-form input {
+      background: var(--bg); border: 1px solid var(--border); color: var(--cream);
+      padding: 0.4rem 0.6rem; border-radius: var(--radius-sm);
+      font-family: 'SpecialElite', serif; font-size: 0.85rem;
+      flex: 1; transition: border-color 0.2s;
+    }
+    .bill-form input:focus { outline: none; border-color: var(--sky); }
+    .bill-form input::placeholder { color: var(--muted); opacity: 0.6; }
 
-    .questions-section { margin-top: 1rem; }
+    /* ── QUIZMASTER FEE ── */
+    .qm-section {
+      background: rgba(243,212,89,0.04); border: 1px solid rgba(243,212,89,0.15);
+      border-radius: var(--radius-sm); padding: 0.8rem 1rem; margin-top: 0.8rem;
+    }
+    .qm-section h4 {
+      font-family: 'SpecialElite', serif; font-size: 0.78rem;
+      color: var(--yellow); letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .qm-payments { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.6rem; }
+    .qm-payment-chip {
+      font-size: 0.78rem; padding: 0.15rem 0.7rem;
+      border-radius: 20px; border: 1px solid rgba(243,212,89,0.3);
+      color: var(--yellow); background: rgba(243,212,89,0.06);
+      font-family: 'SpecialElite', serif;
+    }
+    .qm-form { display: flex; gap: 0.4rem; align-items: center; flex-wrap: wrap; }
+    .qm-form input {
+      background: var(--bg); border: 1px solid var(--border); color: var(--cream);
+      padding: 0.35rem 0.6rem; border-radius: var(--radius-sm);
+      font-family: 'SpecialElite', serif; font-size: 0.85rem;
+      width: 80px; transition: border-color 0.2s;
+    }
+    .qm-form input:focus { outline: none; border-color: var(--yellow); }
+    .qm-form input::placeholder { color: var(--muted); opacity: 0.6; }
+    .btn-qm {
+      background: rgba(243,212,89,0.1); border: 1px solid rgba(243,212,89,0.3);
+      color: var(--yellow); padding: 0.35rem 0.9rem; border-radius: 20px;
+      cursor: pointer; font-family: 'SpecialElite', serif; font-size: 0.78rem;
+      transition: all 0.15s;
+    }
+    .btn-qm:hover { background: rgba(243,212,89,0.2); }
+    .qm-total { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; font-style: italic; }
+
+    /* ── QUESTIONS ── */
+    .questions-section { margin-top: 0.8rem; }
     .questions-toggle {
       background: none; border: 1px solid var(--border); color: var(--muted);
       padding: 0.3rem 0.8rem; border-radius: 20px; cursor: pointer;
@@ -187,11 +329,9 @@
       transition: all 0.2s; letter-spacing: 0.04em;
     }
     .questions-toggle:hover { border-color: var(--yellow); color: var(--yellow); }
-    .questions-list {
-      margin-top: 0.8rem; border-top: 1px solid var(--border); padding-top: 0.8rem;
-    }
+    .questions-list { margin-top: 0.8rem; border-top: 1px solid var(--border); padding-top: 0.8rem; }
     .question-item {
-      padding: 0.6rem 0; border-bottom: 1px solid rgba(42,48,72,0.6);
+      padding: 0.6rem 0; border-bottom: 1px solid rgba(42,48,72,0.5);
       display: flex; gap: 0.8rem; align-items: flex-start;
     }
     .question-item:last-child { border-bottom: none; }
@@ -200,20 +340,18 @@
     .q-answer { font-size: 0.8rem; color: #6dcc88; font-style: italic; margin-top: 0.2rem; }
     .q-delete {
       background: none; border: none; color: var(--muted);
-      cursor: pointer; font-size: 0.7rem; padding: 0 0.2rem;
-      transition: color 0.15s; line-height: 1;
+      cursor: pointer; font-size: 0.7rem; padding: 0 0.2rem; transition: color 0.15s;
     }
     .q-delete:hover { color: #e06060; }
     .add-question-form { margin-top: 0.8rem; display: flex; flex-direction: column; gap: 0.5rem; }
     .add-question-form input {
-      background: var(--bg); border: 1px solid var(--border);
-      color: var(--cream); padding: 0.45rem 0.7rem;
-      border-radius: var(--radius-sm); font-family: 'SpecialElite', serif;
-      font-size: 0.88rem; width: 100%; transition: border-color 0.2s;
+      background: var(--bg); border: 1px solid var(--border); color: var(--cream);
+      padding: 0.45rem 0.7rem; border-radius: var(--radius-sm);
+      font-family: 'SpecialElite', serif; font-size: 0.88rem;
+      width: 100%; transition: border-color 0.2s;
     }
     .add-question-form input:focus { outline: none; border-color: var(--sky); }
     .add-question-form input::placeholder { color: var(--muted); opacity: 0.6; }
-    .add-q-actions { display: flex; gap: 0.4rem; }
     .btn-add-q {
       background: rgba(27,177,231,0.15); border: 1px solid rgba(27,177,231,0.4);
       color: var(--sky); padding: 0.35rem 0.9rem; border-radius: 20px; cursor: pointer;
@@ -221,12 +359,59 @@
     }
     .btn-add-q:hover { background: rgba(27,177,231,0.25); }
 
+    /* ── RESULT LINE ── */
+    .result-line { margin-top: 0.5rem; font-style: italic; color: var(--yellow); font-size: 0.9rem; }
+
+    .result-section { margin-top: 0.8rem; }
+    .result-display {
+      font-family: 'SpecialElite', serif; font-size: 1rem;
+      color: var(--yellow); margin-bottom: 0.5rem; letter-spacing: 0.03em;
+    }
+    .btn-edit-result {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      padding: 0.28rem 0.7rem; border-radius: 20px; cursor: pointer;
+      font-family: 'SpecialElite', serif; font-size: 0.74rem;
+      transition: all 0.15s; letter-spacing: 0.04em;
+    }
+    .btn-edit-result:hover { border-color: var(--yellow); color: var(--yellow); }
+    .result-form { margin-bottom: 0.5rem; }
+    .result-form-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .result-input-group { display: flex; flex-direction: column; gap: 0.3rem; }
+    .result-input-group label { font-size: 0.72rem; color: var(--muted); font-style: italic; }
+    .result-input-group input {
+      background: var(--bg); border: 1px solid var(--border); color: var(--cream);
+      padding: 0.35rem 0.5rem; border-radius: var(--radius-sm);
+      font-family: 'SpecialElite', serif; font-size: 0.9rem;
+      width: 56px; transition: border-color 0.2s; text-align: center;
+    }
+    .result-input-group input:focus { outline: none; border-color: var(--yellow); }
+    .btn-save-result {
+      background: rgba(243,212,89,0.15); border: 1px solid rgba(243,212,89,0.4);
+      color: var(--yellow); padding: 0.3rem 0.9rem; border-radius: 20px;
+      cursor: pointer; font-family: 'SpecialElite', serif; font-size: 0.78rem;
+      transition: all 0.15s;
+    }
+    .btn-save-result:hover { background: rgba(243,212,89,0.25); }
+    .btn-cancel-result {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      padding: 0.3rem 0.7rem; border-radius: 20px; cursor: pointer;
+      font-family: 'SpecialElite', serif; font-size: 0.78rem; transition: all 0.15s;
+    }
+    .btn-cancel-result:hover { color: var(--cream); }
+    .past-badge {
+      font-size: 0.65rem; color: var(--muted); border: 1px solid var(--border);
+      padding: 0.1rem 0.45rem; border-radius: 3px; font-style: italic;
+      vertical-align: middle; margin-left: 0.3rem;
+    }
+
+    /* ── EMPTY ── */
     .empty {
       text-align: center; color: var(--muted); font-style: italic;
       padding: 2.5rem 1rem; border: 1px dashed var(--border);
       border-radius: var(--radius); font-size: 0.95rem;
     }
 
+    /* ── NEW QUIZ BTN ── */
     .new-quiz-btn {
       background: none; border: 1px solid var(--border); color: var(--muted);
       padding: 0.4rem 1.1rem; border-radius: 20px; cursor: pointer;
@@ -235,6 +420,7 @@
     }
     .new-quiz-btn:hover { border-color: var(--sky); color: var(--sky); }
 
+    /* ── ADMIN PANEL ── */
     .admin-panel {
       background: var(--surface); border: 1px solid rgba(122,38,58,0.5);
       border-radius: var(--radius); padding: 1.5rem; margin-bottom: 2rem;
@@ -261,22 +447,60 @@
     .btn-primary {
       background: linear-gradient(135deg, #7A263A, #a8304e); color: #fff;
       border: none; padding: 0.55rem 1.5rem; border-radius: 20px;
-      font-family: 'SpecialElite', serif; font-size: 0.95rem;
-      cursor: pointer; transition: opacity 0.15s;
+      font-family: 'SpecialElite', serif; font-size: 0.95rem; cursor: pointer; transition: opacity 0.15s;
     }
     .btn-primary:hover { opacity: 0.85; }
     .btn-secondary {
       background: none; color: var(--muted); border: 1px solid var(--border);
       padding: 0.55rem 1rem; border-radius: 20px;
-      font-family: 'SpecialElite', serif; font-size: 0.9rem;
-      cursor: pointer; transition: all 0.15s;
+      font-family: 'SpecialElite', serif; font-size: 0.9rem; cursor: pointer; transition: all 0.15s;
     }
     .btn-secondary:hover { border-color: var(--muted); color: var(--cream); }
 
+    /* ── VENUE NOTE ── */
+    .venue-note {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 0.6rem 0.9rem;
+      font-size: 0.8rem; color: var(--muted); margin-bottom: 1.2rem;
+      display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    }
+    .venue-note span { flex: 1; }
+    .venue-note a { color: var(--sky); text-decoration: none; }
+    .venue-note a:hover { text-decoration: underline; }
+    .venue-edit-btn {
+      background: none; border: none; color: var(--muted); cursor: pointer;
+      font-size: 0.72rem; font-family: 'SpecialElite', serif; text-decoration: underline;
+    }
+    .venue-edit-btn:hover { color: var(--yellow); }
+
+    /* ── ZRÁDLO PAGE ── */
+    .zradlo-tabs { display: flex; gap: 0; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); }
+    .zradlo-tab {
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: var(--muted); cursor: pointer; font-family: 'SpecialElite', serif;
+      font-size: 0.82rem; letter-spacing: 0.08em; padding: 0.5rem 1rem;
+      transition: all 0.2s; text-transform: uppercase; margin-bottom: -1px;
+    }
+    .zradlo-tab.active { color: var(--cream); border-bottom-color: var(--yellow); }
+    .zradlo-content { display: none; }
+    .zradlo-content.active { display: block; }
+    .menu-frame-wrap {
+      background: #fff; border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .menu-frame-wrap iframe { display: block; width: 100%; border: none; }
+    .brewer-link {
+      display: flex; align-items: center; gap: 0.5rem;
+      color: var(--sky); text-decoration: none; font-size: 0.82rem;
+      margin-bottom: 0.8rem; letter-spacing: 0.04em;
+    }
+    .brewer-link:hover { text-decoration: underline; }
+
+    /* ── MEMBER PICKER ── */
     .overlay {
       position: fixed; inset: 0; background: rgba(8,5,2,0.92);
       display: flex; align-items: center; justify-content: center;
-      z-index: 100; padding: 1rem; backdrop-filter: blur(4px);
+      z-index: 300; padding: 1rem; backdrop-filter: blur(4px);
     }
     .modal {
       background: var(--card); border: 1px solid var(--claret);
@@ -293,13 +517,14 @@
     }
     .member-btn:hover { border-color: var(--sky); color: #fff; background: rgba(27,177,231,0.08); }
 
+    /* ── TOAST ── */
     .toast {
       position: fixed; bottom: 1.5rem; left: 50%;
       transform: translateX(-50%) translateY(80px);
       background: linear-gradient(135deg, #7A263A, #1BB1E7);
       color: #fff; padding: 0.6rem 1.5rem; border-radius: 20px;
       font-size: 0.82rem; font-family: 'SpecialElite', serif;
-      transition: transform 0.3s ease; z-index: 200; pointer-events: none;
+      transition: transform 0.3s ease; z-index: 400; pointer-events: none;
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
@@ -308,8 +533,7 @@
     @media (max-width: 480px) {
       .form-grid { grid-template-columns: 1fr; }
       .quiz-card-top { flex-direction: column; gap: 0.4rem; }
-      .card-actions { opacity: 1; }
-      .quiz-title { padding-right: 0; }
+      .bill-form-row { flex-direction: column; }
     }
   </style>
 </head>
@@ -319,20 +543,25 @@
 
 <header>
   <div class="hammers" aria-hidden="true">
-    <img src="data:image/png;base64,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" width="72" height="72" alt="" />
+    <img src="data:image/png;base64,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" width="56" height="56" alt="" />
   </div>
   <div class="kicker">Bratislava <span class="dot">✦</span> Pub Quiz</div>
   <h1><span class="w1">Pekáreň</span> <span class="w2">Topec</span></h1>
 </header>
 
-<div class="member-bar" id="memberBar">
-  <span>Playing as: <strong id="memberName">—</strong></span>
-  <button onclick="changeMember()">change</button>
+<div class="nav-bar">
+  <button class="nav-tab active" onclick="switchPage('kviz')">Kvízek</button>
+  <button class="nav-tab" onclick="switchPage('zradlo')">Žrádlo</button>
+  <div class="member-pill">
+    <span>Playing as: <strong id="memberName">—</strong></span>
+    <button onclick="changeMember()">change</button>
+  </div>
 </div>
 
-<main>
-  <div style="display:flex; justify-content:flex-end; margin-bottom:1.4rem;">
-    <button class="new-quiz-btn" onclick="toggleAdmin()">＋ New Quiz</button>
+<!-- KVÍZ PAGE -->
+<div class="page active" id="page-kviz">
+  <div style="display:flex; justify-content:flex-end; margin-bottom:1.2rem;">
+    <button class="new-quiz-btn" onclick="openNewQuiz()">＋ New Quiz</button>
   </div>
 
   <div class="admin-panel" id="adminPanel" style="display:none;">
@@ -363,9 +592,9 @@
         </select>
       </div>
     </div>
-    <div class="form-row">
+    <div class="form-row" id="venueRow">
       <label>Venue</label>
-      <input type="text" id="qVenue" placeholder="e.g. The Blue Goose" />
+      <input type="text" id="qVenue" value="Pivovar Brewer" />
     </div>
     <div class="form-row">
       <label>Notes <em style="font-size:0.75rem;">(optional)</em></label>
@@ -382,10 +611,30 @@
 
   <div class="section-heading" style="margin-top:2rem;">Past Quizzes</div>
   <div id="pastList"></div>
-</main>
+</div>
+
+<!-- ŽRÁDLO PAGE -->
+<div class="page" id="page-zradlo">
+  <a class="brewer-link" href="https://www.brewer.sk" target="_blank">↗ brewer.sk</a>
+  <div class="zradlo-tabs">
+    <button class="zradlo-tab active" onclick="switchZradloTab('denne')">Denné menu</button>
+    <button class="zradlo-tab" onclick="switchZradloTab('jedalny')">Jedálny lístok</button>
+  </div>
+  <div class="zradlo-content active" id="zt-denne">
+    <div class="menu-frame-wrap">
+      <iframe src="https://docs.google.com/document/d/1YiQcLB5Wy3sn3Lo3SgZy6oIvg3qp5shzb-1D4OLgQe0/preview" height="600" title="Denné menu"></iframe>
+    </div>
+  </div>
+  <div class="zradlo-content" id="zt-jedalny">
+    <div class="menu-frame-wrap" style="margin-bottom:1rem;">
+      <iframe src="https://drive.google.com/file/d/1gXGHN6fTFkM3t1jg07c424AusXPmZyi7/preview" height="600" title="Jedálny lístok"></iframe>
+    </div>
+  </div>
+</div>
 
 <div class="bottom-rule"></div>
 
+<!-- Member picker -->
 <div class="overlay" id="memberOverlay" style="display:none;">
   <div class="modal">
     <h2>Who are you?</h2>
@@ -400,11 +649,15 @@
   const SUPABASE_URL = 'https://uzvtycilfgoaafaaxgqd.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6dnR5Y2lsZmdvYWFmYWF4Z3FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzU0ODgsImV4cCI6MjA5NjUxMTQ4OH0.ogEXq3j2692e65OZyKHRLpJHm4EazFVoBco1p_DuWG8';
   const MEMBERS = ['Tesk', 'Benne', 'Marek', 'Bran', 'Wukas', 'Saki'];
+  const DEFAULT_VENUE = 'Pivovar Brewer';
+  const DEFAULT_VENUE_URL = 'https://www.brewer.sk';
 
   let currentMember = localStorage.getItem('pt_member') || null;
-  let quizzes = [], rsvps = [], questions = [];
+  let quizzes = [], rsvps = [], questions = [], bills = [], qmfees = [];
+  let expandedCard = null;
   let openQuestions = {};
 
+  // ── SUPABASE ──
   async function sbGet(table, params = '') {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`, {
       headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
@@ -433,6 +686,7 @@
     });
   }
 
+  // ── INIT ──
   async function init() {
     if (!currentMember) showMemberPicker();
     else document.getElementById('memberName').textContent = currentMember;
@@ -440,14 +694,32 @@
   }
 
   async function loadData() {
-    [quizzes, rsvps, questions] = await Promise.all([
+    [quizzes, rsvps, questions, bills, qmfees] = await Promise.all([
       sbGet('quizzes', 'order=date.asc'),
       sbGet('rsvps', 'select=*'),
-      sbGet('questions', 'order=created_at.asc')
+      sbGet('questions', 'order=created_at.asc'),
+      sbGet('bills', 'select=*'),
+      sbGet('qmfees', 'select=*')
     ]);
     render();
   }
 
+  // ── NAVIGATION ──
+  function switchPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelector(`.nav-tab[onclick*="${page}"]`).classList.add('active');
+  }
+
+  function switchZradloTab(tab) {
+    document.querySelectorAll('.zradlo-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.zradlo-content').forEach(c => c.classList.remove('active'));
+    document.querySelector(`.zradlo-tab[onclick*="${tab}"]`).classList.add('active');
+    document.getElementById('zt-' + tab).classList.add('active');
+  }
+
+  // ── RENDER ──
   function render() {
     const now = new Date();
     const upcoming = quizzes.filter(q => new Date(q.date) >= now);
@@ -466,6 +738,7 @@
   }
 
   function renderCard(q, isPast) {
+    const isExpanded = expandedCard === q.id;
     const qRsvps   = rsvps.filter(r => r.quiz_id === q.id);
     const myRsvp   = qRsvps.find(r => r.member_name === currentMember);
     const myStatus = myRsvp ? myRsvp.status : null;
@@ -474,52 +747,175 @@
     const maybe    = qRsvps.filter(r => r.status === 'maybe').map(r => r.member_name);
     const d        = new Date(q.date);
 
+    const venueDisplay = q.venue || DEFAULT_VENUE;
+    const venueUrl = (q.venue === DEFAULT_VENUE || !q.venue) ? DEFAULT_VENUE_URL : null;
+
     const chips = [
       ...yes.map(n   => `<span class="attendee-chip yes">${n}</span>`),
       ...maybe.map(n => `<span class="attendee-chip maybe">${n}?</span>`),
       ...no.map(n    => `<span class="attendee-chip no">${n}</span>`)
     ].join('');
 
-    const rsvpSection = isPast ? '' : `
+    const rsvpSection = `
       <div class="rsvp-row">
-        <button class="rsvp-btn yes   ${myStatus==='yes'   ?'active':''}" onclick="rsvp('${q.id}','yes')">✓ Going</button>
-        <button class="rsvp-btn maybe ${myStatus==='maybe' ?'active':''}" onclick="rsvp('${q.id}','maybe')">~ Maybe</button>
-        <button class="rsvp-btn no    ${myStatus==='no'    ?'active':''}" onclick="rsvp('${q.id}','no')">✕ Can't</button>
+        <button class="rsvp-btn yes   ${myStatus==='yes'   ?'active':''}" onclick="rsvp('${q.id}','yes');event.stopPropagation()">✓ Going</button>
+        <button class="rsvp-btn maybe ${myStatus==='maybe' ?'active':''}" onclick="rsvp('${q.id}','maybe');event.stopPropagation()">~ Maybe</button>
+        <button class="rsvp-btn no    ${myStatus==='no'    ?'active':''}" onclick="rsvp('${q.id}','no');event.stopPropagation()">✕ Can't</button>
         <span class="rsvp-tally">${yes.length} going · ${maybe.length} maybe</span>
-      </div>`;
+      </div>
+      ${chips ? `<div class="attendees">${chips}</div>` : ''}`;
 
-    const resultLine = isPast && q.result ? `<div class="result-line">🏆 ${q.result}</div>` : '';
+    const placement = q.placement || '';
+    const points = q.points || '';
+    const totalTeams = q.total_teams || '';
+    const resultLine = isPast ? renderResultSection(q.id, placement, totalTeams, points) : '';
+
+    // Bill section for past quizzes
+    const billSection = isPast ? renderBillSection(q.id) : '';
+
+    // QM fee section
+    const qmSection = isPast ? renderQMSection(q.id) : '';
+
+    // Questions
     const qQuestions = questions.filter(qq => qq.quiz_id === q.id);
-    const isOpen = openQuestions[q.id];
-    const questionsSection = isPast ? renderQuestionsSection(q.id, qQuestions, isOpen) : '';
+    const isQOpen = openQuestions[q.id];
+    const questionsSection = isPast ? renderQuestionsSection(q.id, qQuestions, isQOpen) : '';
+
+    const expandedContent = isExpanded ? `
+      <div class="card-expanded">
+        <div class="card-action-row">
+          <button class="btn-card-action" onclick="editQuiz('${q.id}');event.stopPropagation()">✎ Edit</button>
+          <button class="btn-card-action danger" onclick="deleteQuiz('${q.id}');event.stopPropagation()">✕ Delete</button>
+          <button class="btn-card-close" onclick="expandedCard=null;render();event.stopPropagation()">▲ Close</button>
+        </div>
+        ${rsvpSection}
+        ${resultLine}
+        ${billSection}
+        ${qmSection}
+        ${questionsSection}
+      </div>` : `
+      <div class="card-expanded" style="display:none"></div>`;
 
     return `
-    <div class="quiz-card" id="card-${q.id}">
-      <div class="card-actions">
-        <button class="card-action-btn" onclick="editQuiz('${q.id}')" title="Edit">✎</button>
-        <button class="card-action-btn delete" onclick="deleteQuiz('${q.id}')" title="Delete">✕</button>
-      </div>
+    <div class="quiz-card ${isExpanded ? 'expanded' : ''}" onclick="toggleCard('${q.id}')">
       <div class="quiz-card-top">
         <div class="quiz-title">${q.title}${isPast ? ' <span class="past-badge">past</span>' : ''}</div>
         <div class="quiz-date-badge">${fmtDate(d)} · ${d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
       </div>
-      <div class="quiz-meta">
-        ${q.venue ? `<span>📍 ${q.venue}</span>` : ''}
-        ${q.notes ? `<span>📝 ${q.notes}</span>` : ''}
+      <div class="quiz-venue">
+        📍 ${venueUrl ? `<a href="${venueUrl}" target="_blank" onclick="event.stopPropagation()">${venueDisplay}</a>` : venueDisplay}
       </div>
-      ${rsvpSection}
-      ${resultLine}
-      ${chips ? `<div class="attendees">${chips}</div>` : ''}
-      ${questionsSection}
+      ${q.notes ? `<div class="quiz-meta" style="font-size:0.8rem;color:var(--muted);margin-bottom:0.4rem;">📝 ${q.notes}</div>` : ''}
+      ${!isExpanded ? '<div class="quiz-expand-hint">tap to expand</div>' : ''}
+      ${expandedContent}
     </div>`;
   }
 
+  function toggleCard(id) {
+    expandedCard = expandedCard === id ? null : id;
+    render();
+  }
+
+  // ── BILL SECTION ──
+  function renderBillSection(quizId) {
+    const qBill = bills.find(b => b.quiz_id === quizId);
+    const myPaid = qBill && qBill.paid_by && qBill.paid_by.includes(currentMember);
+
+    if (!qBill) {
+      return `
+        <div class="bill-section">
+          <h4>💳 Účet</h4>
+          <div class="bill-form">
+            <input type="number" id="bill-amount-${quizId}" placeholder="Suma (€)" step="0.01" onclick="event.stopPropagation()" />
+            <input type="text" id="bill-iban-${quizId}" placeholder="IBAN" onclick="event.stopPropagation()" />
+            <button class="btn-primary" onclick="saveBill('${quizId}');event.stopPropagation()" style="align-self:flex-start;">Uložiť účet</button>
+          </div>
+        </div>`;
+    }
+
+    const paidList = (qBill.paid_by || []).map(n => {
+      const isMe = n === currentMember;
+      return `<span class="bill-paid-chip">✓ ${n}${isMe ? ` <button class="bill-unpaid-btn" onclick="unmarkPaid('${quizId}');event.stopPropagation()" title="Zrušiť">✕</button>` : ''}</span>`;
+    }).join('');
+
+    return `
+      <div class="bill-section">
+        <h4>💳 Účet</h4>
+        ${qBill.amount ? `<div class="bill-info">Suma: <strong>€${qBill.amount}</strong></div>` : ''}
+        ${qBill.iban ? `<div class="bill-info">IBAN: <strong>${qBill.iban}</strong></div>` : ''}
+        ${paidList ? `<div class="bill-paid-list">${paidList}</div>` : ''}
+        <button class="btn-paid ${myPaid ? 'already' : ''}" onclick="${myPaid ? '' : `markPaid('${quizId}');`}event.stopPropagation()">
+          ${myPaid ? '✓ Zaplatené' : '💸 Zaplatil/a som'}
+        </button>
+      </div>`;
+  }
+
+  async function saveBill(quizId) {
+    const amount = document.getElementById('bill-amount-' + quizId)?.value;
+    const iban   = document.getElementById('bill-iban-' + quizId)?.value?.trim();
+    await sbPost('bills', { quiz_id: quizId, amount: amount || null, iban: iban || null, paid_by: [] });
+    await loadData();
+    toast('Účet uložený!');
+  }
+
+  async function markPaid(quizId) {
+    const qBill = bills.find(b => b.quiz_id === quizId);
+    if (!qBill || !currentMember) return;
+    const newPaid = [...(qBill.paid_by || [])];
+    if (!newPaid.includes(currentMember)) newPaid.push(currentMember);
+    await sbPatch('bills', qBill.id, { paid_by: newPaid });
+    await loadData();
+    toast('Zaznamenané! 💸');
+  }
+
+  async function unmarkPaid(quizId) {
+    const qBill = bills.find(b => b.quiz_id === quizId);
+    if (!qBill || !currentMember) return;
+    const newPaid = (qBill.paid_by || []).filter(n => n !== currentMember);
+    await sbPatch('bills', qBill.id, { paid_by: newPaid });
+    await loadData();
+    toast('Zrušené.');
+  }
+
+  // ── QM FEE SECTION ──
+  function renderQMSection(quizId) {
+    const qFees = qmfees.filter(f => f.quiz_id === quizId);
+    const total = qFees.reduce((s, f) => s + (parseFloat(f.amount) || 0), 0);
+
+    const feeChips = qFees.map(f =>
+      `<span class="qm-payment-chip">${f.member_name}: €${f.amount}</span>`
+    ).join('');
+
+    return `
+      <div class="qm-section">
+        <h4>🎤 Kvizmajster fee</h4>
+        ${feeChips ? `<div class="qm-payments">${feeChips}</div>` : ''}
+        ${total > 0 ? `<div class="qm-total">Spolu: €${total.toFixed(2)}</div>` : ''}
+        <div class="qm-form" onclick="event.stopPropagation()">
+          <select id="qm-who-${quizId}" style="background:var(--bg);border:1px solid var(--border);color:var(--cream);padding:0.35rem 0.5rem;border-radius:var(--radius-sm);font-family:'SpecialElite',serif;font-size:0.85rem;">
+            ${MEMBERS.map(m => `<option value="${m}">${m}</option>`).join('')}
+          </select>
+          <input type="number" id="qm-amt-${quizId}" placeholder="€" step="0.5" min="0" />
+          <button class="btn-qm" onclick="addQMFee('${quizId}');event.stopPropagation()">+ Pridať</button>
+        </div>
+      </div>`;
+  }
+
+  async function addQMFee(quizId) {
+    const who = document.getElementById('qm-who-' + quizId)?.value;
+    const amt = document.getElementById('qm-amt-' + quizId)?.value;
+    if (!amt || parseFloat(amt) <= 0) { toast('Zadaj sumu.'); return; }
+    await sbPost('qmfees', { quiz_id: quizId, member_name: who, amount: parseFloat(amt) });
+    await loadData();
+    toast(`${who}: €${amt} zaznamenaných 🎤`);
+  }
+
+  // ── QUESTIONS ──
   function renderQuestionsSection(quizId, qQuestions, isOpen) {
     const count = qQuestions.length;
     const label = count > 0 ? `${count} question${count!==1?'s':''}` : 'Add questions';
     const toggleLabel = isOpen ? '▲ Hide questions' : `▼ ${label}`;
     const noQHtml = '<div style="color:var(--muted);font-size:0.8rem;font-style:italic;padding:0.5rem 0;">No questions yet.</div>';
-
     const listItems = qQuestions.map((q, i) => `
       <div class="question-item">
         <div class="q-number">${i+1}.</div>
@@ -527,38 +923,31 @@
           <div class="q-text">${q.question}</div>
           ${q.answer ? `<div class="q-answer">→ ${q.answer}</div>` : ''}
         </div>
-        <button class="q-delete" onclick="deleteQuestion('${q.id}','${quizId}')" title="Delete">✕</button>
+        <button class="q-delete" onclick="deleteQuestion('${q.id}','${quizId}');event.stopPropagation()" title="Delete">✕</button>
       </div>`).join('');
 
     const list = isOpen ? `
       <div class="questions-list">
         ${qQuestions.length ? listItems : noQHtml}
-        <div class="add-question-form">
+        <div class="add-question-form" onclick="event.stopPropagation()">
           <input type="text" id="aq-q-${quizId}" placeholder="Question..." />
           <input type="text" id="aq-a-${quizId}" placeholder="Answer (optional)..." />
-          <div class="add-q-actions">
-            <button class="btn-add-q" onclick="addQuestion('${quizId}')">＋ Add question</button>
-          </div>
+          <button class="btn-add-q" onclick="addQuestion('${quizId}');event.stopPropagation()">＋ Add question</button>
         </div>
       </div>` : '';
 
     return `
-      <div class="questions-section">
-        <button class="questions-toggle" onclick="toggleQuestions('${quizId}')">${toggleLabel}</button>
+      <div class="questions-section" onclick="event.stopPropagation()">
+        <button class="questions-toggle" onclick="toggleQuestions('${quizId}');event.stopPropagation()">${toggleLabel}</button>
         ${list}
       </div>`;
   }
 
-  function toggleQuestions(quizId) {
-    openQuestions[quizId] = !openQuestions[quizId];
-    render();
-  }
+  function toggleQuestions(quizId) { openQuestions[quizId] = !openQuestions[quizId]; render(); }
 
   async function addQuestion(quizId) {
-    const qEl = document.getElementById('aq-q-' + quizId);
-    const aEl = document.getElementById('aq-a-' + quizId);
-    const question = qEl ? qEl.value.trim() : '';
-    const answer   = aEl ? aEl.value.trim() : '';
+    const question = document.getElementById('aq-q-' + quizId)?.value.trim();
+    const answer   = document.getElementById('aq-a-' + quizId)?.value.trim();
     if (!question) { toast('Please enter a question.'); return; }
     await sbPost('questions', { quiz_id: quizId, question, answer });
     openQuestions[quizId] = true;
@@ -572,8 +961,60 @@
     await loadData();
   }
 
+  function renderResultSection(quizId, placement, totalTeams, points) {
+    const hasResult = placement || points;
+    const maxPoints = 49; // 7 rounds x 7 questions
+
+    let summary = '';
+    if (placement && totalTeams) summary += `🏆 ${placement}/${totalTeams} teams`;
+    else if (placement) summary += `🏆 ${placement}. place`;
+    if (points) summary += `${summary ? '  ·  ' : ''}🎯 ${points}/${maxPoints} pts`;
+
+    return `
+      <div class="result-section">
+        ${hasResult ? `<div class="result-display">${summary}</div>` : ''}
+        <div class="result-form" id="result-form-${quizId}" style="display:none;">
+          <div class="result-form-row">
+            <div class="result-input-group">
+              <label>Placement</label>
+              <div style="display:flex;align-items:center;gap:0.3rem;">
+                <input type="number" id="r-place-${quizId}" placeholder="3" min="1" value="${placement}" onclick="event.stopPropagation()" />
+                <span style="color:var(--muted);font-size:0.8rem;">/</span>
+                <input type="number" id="r-teams-${quizId}" placeholder="12" min="1" value="${totalTeams}" onclick="event.stopPropagation()" />
+                <span style="color:var(--muted);font-size:0.75rem;">teams</span>
+              </div>
+            </div>
+            <div class="result-input-group">
+              <label>Points</label>
+              <div style="display:flex;align-items:center;gap:0.3rem;">
+                <input type="number" id="r-pts-${quizId}" placeholder="34" min="0" max="49" value="${points}" onclick="event.stopPropagation()" />
+                <span style="color:var(--muted);font-size:0.8rem;">/ 49</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:0.4rem;margin-top:0.5rem;">
+            <button class="btn-save-result" onclick="saveResult('${quizId}');event.stopPropagation()">Save</button>
+            <button class="btn-cancel-result" onclick="document.getElementById('result-form-${quizId}').style.display='none';event.stopPropagation()">Cancel</button>
+          </div>
+        </div>
+        <button class="btn-edit-result" onclick="document.getElementById('result-form-${quizId}').style.display='block';event.stopPropagation()">
+          ${hasResult ? '✎ Edit result' : '＋ Add result'}
+        </button>
+      </div>`;
+  }
+
+  async function saveResult(quizId) {
+    const placement   = document.getElementById('r-place-' + quizId)?.value || null;
+    const totalTeams  = document.getElementById('r-teams-' + quizId)?.value || null;
+    const points      = document.getElementById('r-pts-' + quizId)?.value || null;
+    await sbPatch('quizzes', quizId, { placement, total_teams: totalTeams, points });
+    await loadData();
+    toast('Result saved! 🏆');
+  }
+
   function emptyState(msg) { return `<div class="empty">${msg}</div>`; }
 
+  // ── RSVP ──
   async function rsvp(quizId, status) {
     if (!currentMember) { showMemberPicker(); return; }
     const existing = rsvps.find(r => r.quiz_id === quizId && r.member_name === currentMember);
@@ -587,14 +1028,15 @@
     toast(status === 'yes' ? "You're in! 🍺" : status === 'maybe' ? "Maybe... fair enough." : "Can't make it — noted.");
   }
 
-  function toggleAdmin() {
+  // ── QUIZ CRUD ──
+  function openNewQuiz() {
     document.getElementById('adminPanel').style.display = 'block';
     document.getElementById('adminTitle').textContent = 'Add a Quiz Night';
     document.getElementById('editingId').value = '';
     document.getElementById('qTitle').value = '';
     document.getElementById('qDate').value  = '';
     document.getElementById('qTime').value  = '';
-    document.getElementById('qVenue').value = '';
+    document.getElementById('qVenue').value = DEFAULT_VENUE;
     document.getElementById('qNotes').value = '';
     document.querySelector('.btn-primary').textContent = 'Post Quiz Night';
     document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
@@ -616,17 +1058,19 @@
     document.getElementById('qTitle').value = q.title;
     document.getElementById('qDate').value  = `${yyyy}-${mm}-${dd}`;
     document.getElementById('qTime').value  = hhmm;
-    document.getElementById('qVenue').value = q.venue || '';
+    document.getElementById('qVenue').value = q.venue || DEFAULT_VENUE;
     document.getElementById('qNotes').value = q.notes || '';
     document.querySelector('.btn-primary').textContent = 'Save Changes';
     document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+    expandedCard = null;
+    render();
   }
 
   async function saveQuiz() {
     const title     = document.getElementById('qTitle').value.trim();
     const date      = document.getElementById('qDate').value;
     const time      = document.getElementById('qTime').value || '19:00';
-    const venue     = document.getElementById('qVenue').value.trim();
+    const venue     = document.getElementById('qVenue').value.trim() || DEFAULT_VENUE;
     const notes     = document.getElementById('qNotes').value.trim();
     const editingId = document.getElementById('editingId').value;
     if (!title) { toast('Please enter a title.'); return; }
@@ -645,19 +1089,23 @@
   }
 
   async function deleteQuiz(id) {
-    if (!confirm('Delete this quiz? RSVPs and questions will also be removed.')) return;
+    const q = quizzes.find(q => q.id === id);
+    const name = q ? q.title : 'this quiz';
+    const confirmed = confirm(`Delete "${name}"?\n\nThis will permanently remove all RSVPs, questions and payment records.\n\nType DELETE to confirm.`);
+    if (!confirmed) return;
     await sbDelete('quizzes', id);
+    expandedCard = null;
     await loadData();
     toast('Quiz deleted.');
   }
 
+  // ── MEMBER PICKER ──
   function showMemberPicker() {
     document.getElementById('memberGrid').innerHTML = MEMBERS.map(m =>
       `<button class="member-btn" onclick="selectMember('${m}')">${m}</button>`
     ).join('');
     document.getElementById('memberOverlay').style.display = 'flex';
   }
-
   function selectMember(name) {
     currentMember = name;
     localStorage.setItem('pt_member', name);
@@ -665,9 +1113,9 @@
     document.getElementById('memberOverlay').style.display = 'none';
     loadData();
   }
-
   function changeMember() { showMemberPicker(); }
 
+  // ── TOAST ──
   function toast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
