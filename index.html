@@ -5,283 +5,341 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pekáreň Topec — Pub Quiz</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,700;1,400&family=IM+Fell+English:ital@0;1&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg:       #1a1208;
-      --surface:  #241a0d;
-      --border:   #5c3d1e;
-      --gold:     #c9922a;
-      --gold-lt:  #e8b84b;
-      --cream:    #f2e8d5;
-      --muted:    #a08c6e;
-      --yes:      #4a7c45;
-      --no:       #7c3f3f;
-      --maybe:    #6b5a2e;
-      --radius:   4px;
+      --bg:        #1a0a12;
+      --surface:   #220d18;
+      --card:      #2a1020;
+      --border:    #5c1f3a;
+      --claret:    #7a1535;
+      --claret-lt: #a81d49;
+      --blue:      #1e4d8c;
+      --blue-lt:   #2d6dbf;
+      --sky:       #6aaee8;
+      --cream:     #f0e8e0;
+      --muted:     #9a7888;
+      --gold:      #d4a843;
+      --yes:       #1e6e3a;
+      --no:        #6e1e1e;
+      --maybe:     #4a3d10;
+      --radius:    12px;
+      --radius-sm: 6px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: var(--bg);
+      background-color: var(--bg);
       color: var(--cream);
       font-family: 'Crimson Pro', serif;
       font-size: 17px;
       min-height: 100vh;
+      position: relative;
     }
 
-    /* ── decorative top rule ── */
-    .top-rule {
-      height: 6px;
-      background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 12px, var(--border) 12px, var(--border) 14px);
+    /* ── tiled watermark ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url('https://www.topec.sk/data/topec.sk/images/tmp/topec_logo_a61464ad54a9b7bce74c.svg');
+      background-size: 120px 120px;
+      background-repeat: repeat;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* all content above watermark */
+    .top-stripe, header, .member-bar, main, .bottom-rule, .overlay, .toast {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── top stripe ── */
+    .top-stripe {
+      height: 5px;
+      background: linear-gradient(90deg, var(--claret) 0%, var(--claret) 40%, var(--blue) 60%, var(--blue) 100%);
     }
 
     /* ── header ── */
     header {
       text-align: center;
-      padding: 2rem 1rem 1.5rem;
+      padding: 2.4rem 1rem 2rem;
       border-bottom: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
-    }
-    header::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 260px;
-      height: 260px;
-      background: url('https://www.topec.sk/data/topec.sk/images/tmp/topec_logo_a61464ad54a9b7bce74c.svg') center/contain no-repeat;
-      opacity: 0.06;
-      pointer-events: none;
+      background: linear-gradient(180deg, rgba(122,21,53,0.18) 0%, transparent 100%);
     }
     header .kicker {
-      position: relative;
-      z-index: 1;
       font-family: 'IM Fell English', serif;
       font-style: italic;
       color: var(--muted);
-      font-size: 0.88rem;
-      letter-spacing: 0.12em;
-      margin-bottom: 0.4rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
     }
+    header .kicker .dot { color: var(--sky); margin: 0 0.5rem; }
     header h1 {
-      position: relative;
-      z-index: 1;
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 6vw, 3.4rem);
-      color: var(--gold-lt);
-      letter-spacing: 0.02em;
-      line-height: 1.1;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 10vw, 5.5rem);
+      letter-spacing: 0.06em;
+      line-height: 0.95;
+      background: linear-gradient(135deg, var(--claret-lt) 0%, #e84070 35%, var(--sky) 65%, var(--blue-lt) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 2px 12px rgba(168,29,73,0.3));
     }
-    header h1 em {
-      font-style: italic;
-      color: var(--gold);
-      font-weight: 400;
-    }
-    .ornament { color: var(--gold); margin: 0 0.5rem; }
 
-    /* ── member chip ── */
+    /* ── member bar ── */
     .member-bar {
       display: flex;
       align-items: center;
       justify-content: flex-end;
       gap: 0.5rem;
-      padding: 0.6rem 1.2rem;
+      padding: 0.55rem 1.2rem;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       font-size: 0.88rem;
       color: var(--muted);
-      font-family: 'Crimson Pro', serif;
     }
-    .member-bar strong { color: var(--cream); }
+    .member-bar strong { color: var(--sky); }
     .member-bar button {
-      background: none;
-      border: none;
-      color: var(--gold);
-      cursor: pointer;
-      font-size: 0.78rem;
-      text-decoration: underline;
-      padding: 0;
+      background: none; border: none;
+      color: var(--claret-lt); cursor: pointer;
+      font-size: 0.8rem; text-decoration: underline;
+      padding: 0; font-family: 'Crimson Pro', serif;
     }
 
     /* ── layout ── */
-    main { max-width: 680px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+    main { max-width: 660px; margin: 0 auto; padding: 2rem 1rem 5rem; }
 
     /* ── section heading ── */
     .section-heading {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      color: var(--gold);
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.4rem;
-      margin-bottom: 1.2rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.95rem;
+      color: var(--muted);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 0.8rem;
+    }
+    .section-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
     }
 
     /* ── quiz card ── */
     .quiz-card {
-      background: var(--surface);
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
-      padding: 1.2rem 1.4rem;
-      margin-bottom: 1rem;
-      transition: border-color 0.2s;
+      padding: 1.3rem 1.5rem;
+      margin-bottom: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
     }
-    .quiz-card:hover { border-color: var(--gold); }
-
-    .quiz-card .quiz-header {
+    .quiz-card:hover {
+      border-color: var(--claret-lt);
+      box-shadow: 0 4px 24px rgba(122,21,53,0.2), 0 1px 8px rgba(30,77,140,0.1);
+    }
+    .quiz-card-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
       gap: 1rem;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.7rem;
     }
-    .quiz-card .quiz-title {
+    .quiz-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       color: var(--cream);
+      line-height: 1.2;
+      padding-right: 3.5rem;
     }
-    .quiz-card .quiz-date {
-      font-size: 0.78rem;
-      color: var(--gold);
-      background: rgba(201,146,42,0.12);
-      border: 1px solid var(--border);
-      padding: 0.2rem 0.6rem;
-      border-radius: 2px;
-      white-space: nowrap;
+    .quiz-date-badge {
+      background: rgba(30,77,140,0.15);
+      border: 1px solid rgba(30,77,140,0.4);
+      border-radius: var(--radius-sm);
+      padding: 0.25rem 0.7rem;
       font-family: 'IM Fell English', serif;
       font-style: italic;
+      font-size: 0.82rem;
+      color: var(--sky);
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .quiz-meta {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--muted);
       margin-bottom: 1rem;
       display: flex;
       gap: 1.2rem;
       flex-wrap: wrap;
     }
-    .quiz-meta span::before { margin-right: 0.3rem; }
 
-    /* ── rsvp buttons ── */
+    /* ── card actions ── */
+    .card-actions {
+      position: absolute;
+      top: 0.9rem; right: 1rem;
+      display: flex;
+      gap: 0.3rem;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .quiz-card:hover .card-actions { opacity: 1; }
+    .card-action-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      width: 26px; height: 26px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.75rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s;
+    }
+    .card-action-btn:hover { border-color: var(--sky); color: var(--sky); }
+    .card-action-btn.delete:hover { border-color: #b03030; color: #e06060; }
+
+    /* ── rsvp ── */
     .rsvp-row {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.45rem;
       flex-wrap: wrap;
       align-items: center;
     }
     .rsvp-btn {
-      padding: 0.38rem 1rem;
-      border-radius: var(--radius);
+      padding: 0.35rem 1rem;
+      border-radius: 20px;
       border: 1px solid;
       cursor: pointer;
-      font-size: 0.82rem;
+      font-size: 0.84rem;
       font-family: 'Crimson Pro', serif;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.03em;
       transition: all 0.15s;
       background: transparent;
     }
-    .rsvp-btn.yes   { border-color: var(--yes);   color: #7ebb78; }
-    .rsvp-btn.no    { border-color: var(--no);    color: #d17070; }
-    .rsvp-btn.maybe { border-color: var(--maybe); color: #c4aa5a; }
-    .rsvp-btn.yes.active   { background: var(--yes);   color: #fff; }
-    .rsvp-btn.no.active    { background: var(--no);    color: #fff; }
-    .rsvp-btn.maybe.active { background: var(--maybe); color: #fff; }
-    .rsvp-btn:hover:not(.active) { opacity: 0.75; }
-
+    .rsvp-btn.yes   { border-color: #2a7a45; color: #6dcc88; }
+    .rsvp-btn.no    { border-color: #7a2a2a; color: #dd6666; }
+    .rsvp-btn.maybe { border-color: #6a5a20; color: #ccaa44; }
+    .rsvp-btn.yes.active   { background: #1e6e3a; color: #fff; }
+    .rsvp-btn.no.active    { background: #6e1e1e; color: #fff; }
+    .rsvp-btn.maybe.active { background: #4a3d10; color: #fff; }
+    .rsvp-btn:hover:not(.active) { opacity: 0.72; }
     .rsvp-tally {
       margin-left: auto;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       color: var(--muted);
       font-style: italic;
     }
 
-    /* ── attendee chips ── */
+    /* ── chips ── */
     .attendees {
-      margin-top: 0.8rem;
+      margin-top: 0.85rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 0.35rem;
+      gap: 0.3rem;
     }
     .attendee-chip {
       font-size: 0.78rem;
-      padding: 0.15rem 0.55rem;
-      border-radius: 2px;
+      padding: 0.12rem 0.65rem;
+      border-radius: 20px;
       border: 1px solid;
+      font-family: 'Crimson Pro', serif;
     }
-    .attendee-chip.yes   { border-color: var(--yes);   color: #7ebb78; background: rgba(74,124,69,0.12); }
-    .attendee-chip.no    { border-color: var(--no);    color: #d17070; background: rgba(124,63,63,0.12); }
-    .attendee-chip.maybe { border-color: var(--maybe); color: #c4aa5a; background: rgba(107,90,46,0.12); }
+    .attendee-chip.yes   { border-color: #2a7a45; color: #6dcc88; background: rgba(30,110,58,0.12); }
+    .attendee-chip.no    { border-color: #7a2a2a; color: #dd6666; background: rgba(110,30,30,0.12); }
+    .attendee-chip.maybe { border-color: #6a5a20; color: #ccaa44; background: rgba(74,61,16,0.12); }
 
-    /* ── empty state ── */
+    .result-line {
+      margin-top: 0.7rem;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+    .past-badge {
+      font-size: 0.68rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      font-family: 'IM Fell English', serif;
+      font-style: italic;
+      vertical-align: middle;
+      margin-left: 0.3rem;
+    }
+
+    /* ── empty ── */
     .empty {
       text-align: center;
       color: var(--muted);
       font-family: 'IM Fell English', serif;
       font-style: italic;
-      padding: 3rem 1rem;
+      padding: 2.5rem 1rem;
       border: 1px dashed var(--border);
       border-radius: var(--radius);
+      font-size: 1rem;
     }
 
-    /* ── admin panel ── */
-    .admin-toggle {
+    /* ── new quiz btn ── */
+    .new-quiz-btn {
       background: none;
       border: 1px solid var(--border);
       color: var(--muted);
-      padding: 0.3rem 0.8rem;
-      border-radius: var(--radius);
+      padding: 0.4rem 1.1rem;
+      border-radius: 20px;
       cursor: pointer;
-      font-size: 0.84rem;
+      font-size: 0.88rem;
       font-family: 'Crimson Pro', serif;
       transition: all 0.2s;
     }
-    .admin-toggle:hover { border-color: var(--gold); color: var(--gold); }
+    .new-quiz-btn:hover { border-color: var(--claret-lt); color: var(--claret-lt); }
 
+    /* ── admin panel ── */
     .admin-panel {
       background: var(--surface);
-      border: 1px solid var(--gold);
+      border: 1px solid var(--claret);
       border-radius: var(--radius);
-      padding: 1.4rem;
+      padding: 1.5rem;
       margin-bottom: 2rem;
     }
     .admin-panel h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      color: var(--gold);
-      margin-bottom: 1rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.12em;
+      color: var(--claret-lt);
+      margin-bottom: 1.2rem;
     }
     .form-row {
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0.9rem;
     }
     .form-row label {
-      font-size: 0.82rem;
-      color: var(--muted-lt, #baa880);
+      font-size: 0.8rem;
+      color: var(--muted);
       font-family: 'IM Fell English', serif;
       font-style: italic;
-      margin-bottom: 0.2rem;
-      display: block;
+      margin-bottom: 0.3rem;
     }
-    /* fix calendar icon */
     input[type="date"]::-webkit-calendar-picker-indicator {
-      filter: invert(0.7) sepia(1) saturate(2) hue-rotate(5deg);
+      filter: invert(0.6) sepia(1) saturate(1.5) hue-rotate(190deg);
       cursor: pointer;
     }
-
-    .form-row input, .form-row textarea {
+    .form-row input, .form-row textarea, .form-row select {
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--cream);
-      padding: 0.5rem 0.7rem;
-      border-radius: var(--radius);
+      padding: 0.55rem 0.8rem;
+      border-radius: var(--radius-sm);
       font-family: 'Crimson Pro', serif;
       font-size: 1rem;
       width: 100%;
@@ -289,18 +347,7 @@
     }
     .form-row input:focus, .form-row textarea:focus, .form-row select:focus {
       outline: none;
-      border-color: var(--gold);
-    }
-    .form-row select {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      color: var(--cream);
-      padding: 0.5rem 0.7rem;
-      border-radius: var(--radius);
-      font-family: 'Crimson Pro', serif;
-      font-size: 1rem;
-      width: 100%;
-      cursor: pointer;
+      border-color: var(--blue-lt);
     }
     .form-row select option { background: var(--bg); }
     .form-grid {
@@ -308,51 +355,65 @@
       grid-template-columns: 1fr 1fr;
       gap: 0.8rem;
     }
+    .form-actions { display: flex; gap: 0.6rem; margin-top: 0.4rem; }
     .btn-primary {
-      background: var(--gold);
-      color: var(--bg);
+      background: linear-gradient(135deg, var(--claret) 0%, var(--claret-lt) 100%);
+      color: #fff;
       border: none;
-      padding: 0.55rem 1.4rem;
-      border-radius: var(--radius);
-      font-family: 'Playfair Display', serif;
+      padding: 0.55rem 1.5rem;
+      border-radius: 20px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: none;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.55rem 1rem;
+      border-radius: 20px;
+      font-family: 'Crimson Pro', serif;
       font-size: 0.95rem;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: all 0.15s;
     }
-    .btn-primary:hover { background: var(--gold-lt); }
+    .btn-secondary:hover { border-color: var(--muted); color: var(--cream); }
 
-    /* ── member picker modal ── */
+    /* ── member picker ── */
     .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10,7,3,0.88);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      padding: 1rem;
+      position: fixed; inset: 0;
+      background: rgba(10,3,7,0.92);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; padding: 1rem;
+      backdrop-filter: blur(4px);
     }
     .modal {
-      background: var(--surface);
-      border: 1px solid var(--gold);
+      background: var(--card);
+      border: 1px solid var(--claret);
       border-radius: var(--radius);
       padding: 2rem;
-      max-width: 380px;
-      width: 100%;
+      max-width: 360px; width: 100%;
       text-align: center;
     }
     .modal h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.4rem;
-      color: var(--gold-lt);
-      margin-bottom: 0.4rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.08em;
+      background: linear-gradient(135deg, var(--claret-lt), var(--sky));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
     }
     .modal p {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-family: 'IM Fell English', serif;
       font-style: italic;
-      margin-bottom: 1.4rem;
+      margin-bottom: 1.5rem;
     }
     .member-grid {
       display: grid;
@@ -360,73 +421,62 @@
       gap: 0.5rem;
     }
     .member-btn {
-      background: var(--bg);
+      background: var(--surface);
       border: 1px solid var(--border);
       color: var(--cream);
-      padding: 0.65rem 0.5rem;
-      border-radius: var(--radius);
+      padding: 0.7rem 0.5rem;
+      border-radius: var(--radius-sm);
       cursor: pointer;
       font-family: 'Crimson Pro', serif;
-      font-size: 1rem;
+      font-size: 1.05rem;
       transition: all 0.15s;
     }
-    .member-btn:hover { border-color: var(--gold); color: var(--gold-lt); }
+    .member-btn:hover {
+      border-color: var(--claret-lt);
+      color: #fff;
+      background: rgba(122,21,53,0.2);
+    }
 
-    /* ── notification ── */
+    /* ── toast ── */
     .toast {
       position: fixed;
-      bottom: 1.5rem;
-      left: 50%;
+      bottom: 1.5rem; left: 50%;
       transform: translateX(-50%) translateY(80px);
-      background: var(--gold);
-      color: var(--bg);
-      padding: 0.6rem 1.4rem;
-      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--claret), var(--blue));
+      color: #fff;
+      padding: 0.6rem 1.5rem;
+      border-radius: 20px;
       font-size: 0.88rem;
       font-weight: 600;
+      font-family: 'Crimson Pro', serif;
       transition: transform 0.3s ease;
       z-index: 200;
       pointer-events: none;
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
-    /* ── past quiz badge ── */
-    .past-badge {
-      font-size: 0.75rem;
-      color: var(--muted);
-      border: 1px solid var(--border);
-      padding: 0.1rem 0.45rem;
-      border-radius: 2px;
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-    }
-    .result-line {
-      margin-top: 0.6rem;
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      color: var(--gold);
-      font-size: 0.95rem;
-    }
-
+    /* ── bottom ── */
     .bottom-rule {
-      height: 3px;
-      background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 8px, transparent 8px, transparent 12px);
+      height: 5px;
+      background: linear-gradient(90deg, var(--claret) 0%, var(--claret) 40%, var(--blue) 60%, var(--blue) 100%);
       margin-top: 3rem;
     }
 
     @media (max-width: 480px) {
       .form-grid { grid-template-columns: 1fr; }
-      .quiz-card .quiz-header { flex-direction: column; gap: 0.4rem; }
+      .quiz-card-top { flex-direction: column; gap: 0.4rem; }
+      .card-actions { opacity: 1; }
+      .quiz-title { padding-right: 0; }
     }
   </style>
 </head>
 <body>
 
-<div class="top-rule"></div>
+<div class="top-stripe"></div>
 
 <header>
-  <div class="kicker">Est. 2024 <span class="ornament">✦</span> Bratislava <span class="ornament">✦</span> Pub Quiz</div>
-  <h1><em>Pekáreň</em> Topec</h1>
+  <div class="kicker">Bratislava <span class="dot">✦</span> Pub Quiz</div>
+  <h1>Pekáreň Topec</h1>
 </header>
 
 <div class="member-bar" id="memberBar">
@@ -435,13 +485,13 @@
 </div>
 
 <main>
-  <!-- Admin panel -->
-  <div style="display:flex; justify-content:flex-end; margin-bottom:1.2rem;">
-    <button class="admin-toggle" onclick="toggleAdmin()">＋ New Quiz</button>
+  <div style="display:flex; justify-content:flex-end; margin-bottom:1.4rem;">
+    <button class="new-quiz-btn" onclick="toggleAdmin()">＋ New Quiz</button>
   </div>
 
   <div class="admin-panel" id="adminPanel" style="display:none;">
-    <h3>Add a Quiz Night</h3>
+    <h3 id="adminTitle">Add a Quiz Night</h3>
+    <input type="hidden" id="editingId" value="" />
     <div class="form-row">
       <label>Title</label>
       <input type="text" id="qTitle" placeholder="e.g. June Quiz Night" />
@@ -472,29 +522,24 @@
       <input type="text" id="qVenue" placeholder="e.g. The Blue Goose" />
     </div>
     <div class="form-row">
-      <label>Notes <em style="font-style:italic;font-size:0.75rem;">(optional)</em></label>
+      <label>Notes <em style="font-size:0.78rem;">(optional)</em></label>
       <input type="text" id="qNotes" placeholder="e.g. Bring cash, starts sharp at 19:00" />
     </div>
-    <button class="btn-primary" onclick="addQuiz()">Post Quiz Night</button>
+    <div class="form-actions">
+      <button class="btn-primary" onclick="saveQuiz()">Post Quiz Night</button>
+      <button class="btn-secondary" onclick="cancelAdmin()">Cancel</button>
+    </div>
   </div>
 
-  <!-- Upcoming -->
-  <div class="section-heading">
-    <span>Upcoming</span>
-  </div>
+  <div class="section-heading">Upcoming</div>
   <div id="upcomingList"></div>
 
-  <!-- Past -->
-  <div class="section-heading" style="margin-top:2rem;">
-    <span>Past Quizzes</span>
-  </div>
+  <div class="section-heading" style="margin-top:2rem;">Past Quizzes</div>
   <div id="pastList"></div>
-
 </main>
 
 <div class="bottom-rule"></div>
 
-<!-- Member picker -->
 <div class="overlay" id="memberOverlay">
   <div class="modal">
     <h2>Who are you?</h2>
@@ -503,58 +548,37 @@
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── CONFIG ──────────────────────────────────────────────
-  // Replace with your actual Supabase URL and anon key
   const SUPABASE_URL = 'https://uzvtycilfgoaafaaxgqd.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6dnR5Y2lsZmdvYWFmYWF4Z3FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzU0ODgsImV4cCI6MjA5NjUxMTQ4OH0.ogEXq3j2692e65OZyKHRLpJHm4EazFVoBco1p_DuWG8';
-
-  const MEMBERS = [
-    'Tesk', 'Benne', 'Marek', 'Bran', 'Wukas', 'Saki'
-  ];
-  // ────────────────────────────────────────────────────────
+  const MEMBERS = ['Tesk', 'Benne', 'Marek', 'Bran', 'Wukas', 'Saki'];
 
   let currentMember = localStorage.getItem('pt_member') || null;
-  let quizzes = [];
-  let rsvps = [];
+  let quizzes = [], rsvps = [];
 
-  // ── SUPABASE HELPERS ─────────────────────────────────────
   async function sbGet(table, params = '') {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${params}`, {
       headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
     });
     return r.json();
   }
-
   async function sbPost(table, body) {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
       method: 'POST',
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=representation'
-      },
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
       body: JSON.stringify(body)
     });
     return r.json();
   }
-
   async function sbPatch(table, id, body) {
     await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
       method: 'PATCH',
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json'
-      },
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
   }
-
   async function sbDelete(table, id) {
     await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
       method: 'DELETE',
@@ -562,13 +586,9 @@
     });
   }
 
-  // ── INIT ─────────────────────────────────────────────────
   async function init() {
-    if (!currentMember) {
-      showMemberPicker();
-    } else {
-      document.getElementById('memberName').textContent = currentMember;
-    }
+    if (!currentMember) showMemberPicker();
+    else document.getElementById('memberName').textContent = currentMember;
     await loadData();
   }
 
@@ -578,46 +598,42 @@
     render();
   }
 
-  // ── RENDER ────────────────────────────────────────────────
   function render() {
     const now = new Date();
     const upcoming = quizzes.filter(q => new Date(q.date) >= now);
     const past     = quizzes.filter(q => new Date(q.date) < now);
-
-    document.getElementById('upcomingList').innerHTML =
-      upcoming.length ? upcoming.map(renderCard).join('') : emptyState('No upcoming quizzes — check back soon.');
-
-    document.getElementById('pastList').innerHTML =
-      past.length ? past.slice().reverse().map(q => renderCard(q, true)).join('') : emptyState('No past quizzes yet.');
+    document.getElementById('upcomingList').innerHTML = upcoming.length ? upcoming.map(q => renderCard(q, false)).join('') : emptyState('No upcoming quizzes — check back soon.');
+    document.getElementById('pastList').innerHTML     = past.length    ? past.slice().reverse().map(q => renderCard(q, true)).join('')  : emptyState('No past quizzes yet.');
   }
 
-  function renderCard(q, isPast = false) {
-    const qRsvps = rsvps.filter(r => r.quiz_id === q.id);
-    const myRsvp = qRsvps.find(r => r.member_name === currentMember);
-    const myStatus = myRsvp ? myRsvp.status : null;
-
-    const yes   = qRsvps.filter(r => r.status === 'yes').map(r => r.member_name);
-    const no    = qRsvps.filter(r => r.status === 'no').map(r => r.member_name);
-    const maybe = qRsvps.filter(r => r.status === 'maybe').map(r => r.member_name);
-
-    const d = new Date(q.date);
+  function fmtDate(d) {
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const dd = String(d.getDate()).padStart(2,'0');
+    const dd  = String(d.getDate()).padStart(2,'0');
     const mmm = months[d.getMonth()];
-    const yy = String(d.getFullYear()).slice(-2);
-    const weekday = d.toLocaleDateString('en-GB', { weekday:'short' });
-    const dateStr = weekday + ' ' + dd + '-' + mmm + '-' + yy;
-    const timeStr = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+    const yy  = String(d.getFullYear()).slice(-2);
+    const wd  = d.toLocaleDateString('en-GB', { weekday:'short' });
+    return `${wd} ${dd}-${mmm}-${yy}`;
+  }
 
-    const chips = [...yes.map(n=>`<span class="attendee-chip yes">${n}</span>`),
-                   ...maybe.map(n=>`<span class="attendee-chip maybe">${n}?</span>`),
-                   ...no.map(n=>`<span class="attendee-chip no">${n}</span>`)].join('');
+  function renderCard(q, isPast) {
+    const qRsvps   = rsvps.filter(r => r.quiz_id === q.id);
+    const myRsvp   = qRsvps.find(r => r.member_name === currentMember);
+    const myStatus = myRsvp ? myRsvp.status : null;
+    const yes      = qRsvps.filter(r => r.status === 'yes').map(r => r.member_name);
+    const no       = qRsvps.filter(r => r.status === 'no').map(r => r.member_name);
+    const maybe    = qRsvps.filter(r => r.status === 'maybe').map(r => r.member_name);
+    const d        = new Date(q.date);
+    const chips    = [
+      ...yes.map(n   => `<span class="attendee-chip yes">${n}</span>`),
+      ...maybe.map(n => `<span class="attendee-chip maybe">${n}?</span>`),
+      ...no.map(n    => `<span class="attendee-chip no">${n}</span>`)
+    ].join('');
 
     const rsvpSection = isPast ? '' : `
       <div class="rsvp-row">
-        <button class="rsvp-btn yes   ${myStatus==='yes'   ? 'active':''}" onclick="rsvp('${q.id}','yes')">  ✓ Going</button>
-        <button class="rsvp-btn maybe ${myStatus==='maybe' ? 'active':''}" onclick="rsvp('${q.id}','maybe')">~ Maybe</button>
-        <button class="rsvp-btn no    ${myStatus==='no'    ? 'active':''}" onclick="rsvp('${q.id}','no')">  ✕ Can't</button>
+        <button class="rsvp-btn yes   ${myStatus==='yes'   ?'active':''}" onclick="rsvp('${q.id}','yes')">✓ Going</button>
+        <button class="rsvp-btn maybe ${myStatus==='maybe' ?'active':''}" onclick="rsvp('${q.id}','maybe')">~ Maybe</button>
+        <button class="rsvp-btn no    ${myStatus==='no'    ?'active':''}" onclick="rsvp('${q.id}','no')">✕ Can't</button>
         <span class="rsvp-tally">${yes.length} going · ${maybe.length} maybe</span>
       </div>`;
 
@@ -625,11 +641,13 @@
 
     return `
     <div class="quiz-card">
-      <div class="quiz-header">
-        <div>
-          <div class="quiz-title">${q.title} ${isPast ? '<span class="past-badge">past</span>' : ''}</div>
-        </div>
-        <div class="quiz-date">${dateStr} · ${timeStr}</div>
+      <div class="card-actions">
+        <button class="card-action-btn" onclick="editQuiz('${q.id}')" title="Edit">✎</button>
+        <button class="card-action-btn delete" onclick="deleteQuiz('${q.id}')" title="Delete">✕</button>
+      </div>
+      <div class="quiz-card-top">
+        <div class="quiz-title">${q.title}${isPast ? ' <span class="past-badge">past</span>' : ''}</div>
+        <div class="quiz-date-badge">${fmtDate(d)} · ${d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
       </div>
       <div class="quiz-meta">
         ${q.venue ? `<span>📍 ${q.venue}</span>` : ''}
@@ -641,20 +659,14 @@
     </div>`;
   }
 
-  function emptyState(msg) {
-    return `<div class="empty">${msg}</div>`;
-  }
+  function emptyState(msg) { return `<div class="empty">${msg}</div>`; }
 
-  // ── RSVP ─────────────────────────────────────────────────
   async function rsvp(quizId, status) {
     if (!currentMember) { showMemberPicker(); return; }
     const existing = rsvps.find(r => r.quiz_id === quizId && r.member_name === currentMember);
     if (existing) {
-      if (existing.status === status) {
-        await sbDelete('rsvps', existing.id);
-      } else {
-        await sbPatch('rsvps', existing.id, { status });
-      }
+      if (existing.status === status) await sbDelete('rsvps', existing.id);
+      else await sbPatch('rsvps', existing.id, { status });
     } else {
       await sbPost('rsvps', { quiz_id: quizId, member_name: currentMember, status });
     }
@@ -662,42 +674,78 @@
     toast(status === 'yes' ? "You're in! 🍺" : status === 'maybe' ? "Maybe... fair enough." : "Can't make it — noted.");
   }
 
-  // ── ADD QUIZ ──────────────────────────────────────────────
-  async function addQuiz() {
-    const title  = document.getElementById('qTitle').value.trim();
-    const date   = document.getElementById('qDate').value;
-    const time   = document.getElementById('qTime').value || '19:00';
-    const venue  = document.getElementById('qVenue').value.trim();
-    const notes  = document.getElementById('qNotes').value.trim();
+  function toggleAdmin() {
+    document.getElementById('adminPanel').style.display = 'block';
+    document.getElementById('adminTitle').textContent = 'Add a Quiz Night';
+    document.getElementById('editingId').value = '';
+    document.getElementById('qTitle').value = '';
+    document.getElementById('qDate').value  = '';
+    document.getElementById('qTime').value  = '';
+    document.getElementById('qVenue').value = '';
+    document.getElementById('qNotes').value = '';
+    document.querySelector('.btn-primary').textContent = 'Post Quiz Night';
+    document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function cancelAdmin() {
+    document.getElementById('adminPanel').style.display = 'none';
+  }
+
+  function editQuiz(id) {
+    const q = quizzes.find(q => q.id === id);
+    if (!q) return;
+    const d    = new Date(q.date);
+    const yyyy = d.getFullYear();
+    const mm   = String(d.getMonth()+1).padStart(2,'0');
+    const dd   = String(d.getDate()).padStart(2,'0');
+    const hhmm = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+    document.getElementById('adminPanel').style.display = 'block';
+    document.getElementById('adminTitle').textContent = 'Edit Quiz Night';
+    document.getElementById('editingId').value = id;
+    document.getElementById('qTitle').value = q.title;
+    document.getElementById('qDate').value  = `${yyyy}-${mm}-${dd}`;
+    document.getElementById('qTime').value  = hhmm;
+    document.getElementById('qVenue').value = q.venue || '';
+    document.getElementById('qNotes').value = q.notes || '';
+    document.querySelector('.btn-primary').textContent = 'Save Changes';
+    document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  async function saveQuiz() {
+    const title     = document.getElementById('qTitle').value.trim();
+    const date      = document.getElementById('qDate').value;
+    const time      = document.getElementById('qTime').value || '19:00';
+    const venue     = document.getElementById('qVenue').value.trim();
+    const notes     = document.getElementById('qNotes').value.trim();
+    const editingId = document.getElementById('editingId').value;
     if (!title) { toast('Please enter a title.'); return; }
     if (!date)  { toast('Please pick a date.'); return; }
-    const datetime = date + 'T' + time + ':00';
-    const result = await sbPost('quizzes', { title, date: datetime, venue, notes });
-    if (result && result[0] && result[0].id) {
-      document.getElementById('qTitle').value = '';
-      document.getElementById('qDate').value  = '';
-      document.getElementById('qTime').value  = '';
-      document.getElementById('qVenue').value = '';
-      document.getElementById('qNotes').value = '';
-      toggleAdmin();
-      await loadData();
-      toast('Quiz night posted! 🎉');
+    const datetime = `${date}T${time}:00`;
+    if (editingId) {
+      await sbPatch('quizzes', editingId, { title, date: datetime, venue, notes });
+      toast('Quiz updated ✓');
     } else {
-      console.error('sbPost result:', result);
-      toast('Error saving quiz — check console (F12).');
+      const result = await sbPost('quizzes', { title, date: datetime, venue, notes });
+      if (!result || !result[0] || !result[0].id) {
+        console.error('sbPost result:', result);
+        toast('Error saving — check console (F12).');
+        return;
+      }
+      toast('Quiz night posted! 🎉');
     }
+    cancelAdmin();
+    await loadData();
   }
 
-  // ── ADMIN TOGGLE ──────────────────────────────────────────
-  function toggleAdmin() {
-    const p = document.getElementById('adminPanel');
-    p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  async function deleteQuiz(id) {
+    if (!confirm('Delete this quiz? RSVPs will also be removed.')) return;
+    await sbDelete('quizzes', id);
+    await loadData();
+    toast('Quiz deleted.');
   }
 
-  // ── MEMBER PICKER ─────────────────────────────────────────
   function showMemberPicker() {
-    const grid = document.getElementById('memberGrid');
-    grid.innerHTML = MEMBERS.map(m =>
+    document.getElementById('memberGrid').innerHTML = MEMBERS.map(m =>
       `<button class="member-btn" onclick="selectMember('${m}')">${m}</button>`
     ).join('');
     document.getElementById('memberOverlay').style.display = 'flex';
@@ -711,16 +759,13 @@
     loadData();
   }
 
-  function changeMember() {
-    showMemberPicker();
-  }
+  function changeMember() { showMemberPicker(); }
 
-  // ── TOAST ─────────────────────────────────────────────────
   function toast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
     t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
+    setTimeout(() => t.classList.remove('show'), 2600);
   }
 
   init();
