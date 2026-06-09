@@ -1175,7 +1175,10 @@
     const editingId = document.getElementById('editingId').value;
     if (!title) { toast('Please enter a title.'); return; }
     if (!date)  { toast('Please pick a date.'); return; }
-    const datetime = `${date}T${time}:00`;
+    // Build datetime with local timezone offset so it round-trips correctly
+    const [hh, mm] = time.split(':');
+    const localDate = new Date(parseInt(date.slice(0,4)), parseInt(date.slice(5,7))-1, parseInt(date.slice(8,10)), parseInt(hh), parseInt(mm), 0);
+    const datetime = localDate.toISOString();
     if (editingId) {
       await sbPatch('quizzes', editingId, { title, date: datetime, venue, notes });
       toast('Quiz updated ✓');
