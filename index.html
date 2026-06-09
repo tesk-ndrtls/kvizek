@@ -623,11 +623,11 @@
     <div class="form-grid">
       <div class="form-row">
         <label>Date</label>
-        <input type="date" id="qDate" />
+        <input type="date" id="qDate" autocomplete="off" />
       </div>
       <div class="form-row">
         <label>Time</label>
-        <select id="qTime">
+        <select id="qTime" autocomplete="off">
           <option value="">— pick time —</option>
           <option value="17:00">17:00</option>
           <option value="17:30">17:30</option>
@@ -1135,11 +1135,11 @@
     document.getElementById('editingId').value = '';
     document.getElementById('qTitle').value = '';
     document.getElementById('qDate').value  = '';
-    document.getElementById('qTime').value  = '18:30';
     document.getElementById('qVenue').value = DEFAULT_VENUE;
     document.getElementById('qNotes').value = '';
     document.querySelector('.btn-primary').textContent = 'Post Quiz Night';
     document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => { document.getElementById('qTime').value = '18:30'; }, 50);
   }
 
   function cancelAdmin() { document.getElementById('adminPanel').style.display = 'none'; }
@@ -1223,11 +1223,6 @@
     setTimeout(() => t.classList.remove('show'), 2600);
   }
 
-  // Always reset time select to 18:30 on load
-  document.addEventListener('DOMContentLoaded', () => {
-    const sel = document.getElementById('qTime');
-    if (sel) sel.value = '18:30';
-  });
   init();
 </script>
 </body>
