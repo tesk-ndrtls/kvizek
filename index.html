@@ -397,9 +397,10 @@
     .btn-corner-edit, .btn-corner-delete, .btn-corner-close {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: var(--radius-sm); cursor: pointer;
-      width: 28px; height: 28px; font-size: 0.78rem;
+      width: 34px; height: 34px; font-size: 1.1rem;
       display: flex; align-items: center; justify-content: center;
-      transition: all 0.15s; color: var(--muted);
+      transition: all 0.15s; color: var(--cream);
+      line-height: 1;
     }
     .btn-corner-edit:hover { border-color: var(--sky); color: var(--sky); }
     .btn-corner-delete:hover { border-color: #b03030; color: #e06060; }
@@ -771,18 +772,51 @@
   // ── RENDER ──
   function render() {
     const now = new Date();
-    const upcoming = quizzes.filter(q => new Date(q.date) >= now);
-    const past     = quizzes.filter(q => new Date(q.date) < now);
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+    const quizDateStr = q => q.date_str || (q.date || '').slice(0,10);
+    const upcoming = quizzes.filter(q => quizDateStr(q) >= todayStr);
+    const past     = quizzes.filter(q => quizDateStr(q) < todayStr);
     document.getElementById('upcomingList').innerHTML = upcoming.length ? upcoming.map(q => renderCard(q, false)).join('') : emptyState('No upcoming quizzes — check back soon.');
     document.getElementById('pastList').innerHTML     = past.length    ? past.slice().reverse().map(q => renderCard(q, true)).join('')  : emptyState('No past quizzes yet.');
   }
 
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const WEEKDAYS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+  function fmtDateStr(q) {
+    // Prefer plain text date_str (YYYY-MM-DD); fall back to parsing date
+    let y, m, day;
+    if (q.date_str) {
+      y = parseInt(q.date_str.slice(0,4));
+      m = parseInt(q.date_str.slice(5,7));
+      day = parseInt(q.date_str.slice(8,10));
+    } else {
+      const iso = (q.date || '').slice(0,10);
+      y = parseInt(iso.slice(0,4));
+      m = parseInt(iso.slice(5,7));
+      day = parseInt(iso.slice(8,10));
+    }
+    const dd = String(day).padStart(2,'0');
+    const mmm = MONTHS[m-1] || '';
+    // weekday from a UTC-safe date
+    const wdDate = new Date(Date.UTC(y, m-1, day));
+    const wd = WEEKDAYS[wdDate.getUTCDay()];
+    return `${wd} ${dd}-${mmm}-${y}`;
+  }
+
+  function getTimeStr(q) {
+    if (q.time_str) return q.time_str;
+    // fall back: extract HH:MM from the raw date string without Date() conversion
+    const raw = q.date || '';
+    const tMatch = raw.match(/T(\d{2}:\d{2})/);
+    return tMatch ? tMatch[1] : '';
+  }
+
   function fmtDate(d) {
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     const dd = String(d.getDate()).padStart(2,'0');
-    const mmm = months[d.getMonth()];
+    const mmm = MONTHS[d.getMonth()];
     const yyyy = d.getFullYear();
-    const wd = d.toLocaleDateString('en-GB', { weekday:'short' });
+    const wd = WEEKDAYS[d.getDay()];
     return `${wd} ${dd}-${mmm}-${yyyy}`;
   }
 
@@ -833,9 +867,9 @@
     const expandedContent = isExpanded ? `
       <div class="card-expanded">
         <div class="card-corner-actions">
-          <button class="btn-corner-edit" onclick="editQuiz('${q.id}');event.stopPropagation()" title="Edit">✎</button>
-          <button class="btn-corner-delete" onclick="deleteQuiz('${q.id}');event.stopPropagation()" title="Delete">🗑</button>
-          <button class="btn-corner-close" onclick="expandedCard=null;render();event.stopPropagation()" title="Close">✕</button>
+          <button class="btn-corner-edit" onclick="editQuiz('${q.id}');event.stopPropagation()" title="Edit">✏️</button>
+          <button class="btn-corner-delete" onclick="deleteQuiz('${q.id}');event.stopPropagation()" title="Delete">🗑️</button>
+          <button class="btn-corner-close" onclick="expandedCard=null;render();event.stopPropagation()" title="Close">✖</button>
         </div>
         ${rsvpSection}
         ${resultLine}
@@ -871,7 +905,7 @@
     <div class="quiz-card ${isPast ? 'past-card' : 'upcoming-card'} ${isExpanded ? 'expanded' : ''}" onclick="toggleCard('${q.id}')">
       <div class="quiz-card-top">
         <div class="quiz-title">${q.title}${isPast ? ' <span class="past-badge">past</span>' : ''}</div>
-        <div class="quiz-date-badge">${fmtDate(d)} · ${d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
+        <div class="quiz-date-badge">${fmtDateStr(q)} · ${getTimeStr(q)}</div>
       </div>
       <div class="quiz-venue">
         📍 ${venueUrl ? `<a href="${venueUrl}" target="_blank" onclick="event.stopPropagation()">${venueDisplay}</a>` : venueDisplay}
@@ -1147,23 +1181,20 @@
   function editQuiz(id) {
     const q = quizzes.find(q => q.id === id);
     if (!q) return;
-    const d    = new Date(q.date);
-    const yyyy = d.getFullYear();
-    const mm   = String(d.getMonth()+1).padStart(2,'0');
-    const dd   = String(d.getDate()).padStart(2,'0');
-    const hhmm = d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+    const dateVal = q.date_str || (q.date || '').slice(0,10);
+    const timeVal = getTimeStr(q) || '18:30';
     document.getElementById('adminPanel').style.display = 'block';
     document.getElementById('adminTitle').textContent = 'Edit Quiz Night';
     document.getElementById('editingId').value = id;
     document.getElementById('qTitle').value = q.title;
-    document.getElementById('qDate').value  = `${yyyy}-${mm}-${dd}`;
-    document.getElementById('qTime').value  = hhmm;
+    document.getElementById('qDate').value  = dateVal;
     document.getElementById('qVenue').value = q.venue || DEFAULT_VENUE;
     document.getElementById('qNotes').value = q.notes || '';
     document.querySelector('.btn-primary').textContent = 'Save Changes';
     document.getElementById('adminPanel').scrollIntoView({ behavior: 'smooth' });
     expandedCard = null;
     render();
+    setTimeout(() => { document.getElementById('qTime').value = timeVal; }, 50);
   }
 
   async function saveQuiz() {
@@ -1175,15 +1206,14 @@
     const editingId = document.getElementById('editingId').value;
     if (!title) { toast('Please enter a title.'); return; }
     if (!date)  { toast('Please pick a date.'); return; }
-    // Build datetime with local timezone offset so it round-trips correctly
-    const [hh, mm] = time.split(':');
-    const localDate = new Date(parseInt(date.slice(0,4)), parseInt(date.slice(5,7))-1, parseInt(date.slice(8,10)), parseInt(hh), parseInt(mm), 0);
-    const datetime = localDate.toISOString();
+    // Store date and time as plain text — no timezone conversion ever
+    const datetime = `${date}T${time}:00`;
+    const payload = { title, date: datetime, date_str: date, time_str: time, venue, notes };
     if (editingId) {
-      await sbPatch('quizzes', editingId, { title, date: datetime, venue, notes });
+      await sbPatch('quizzes', editingId, payload);
       toast('Quiz updated ✓');
     } else {
-      const result = await sbPost('quizzes', { title, date: datetime, venue, notes });
+      const result = await sbPost('quizzes', payload);
       if (!result || !result[0] || !result[0].id) { toast('Error saving — check console (F12).'); return; }
       toast('Quiz night posted! 🎉');
     }
