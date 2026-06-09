@@ -52,7 +52,12 @@
 
     .top-stripe, header, .nav-bar, .page, .overlay, .toast { position: relative; z-index: 1; }
 
-    .top-stripe { height: 5px; background: linear-gradient(90deg, #7A263A 50%, #1BB1E7 50%); }
+    .top-stripe {
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect x='0' y='0' width='10' height='10' fill='%237A263A'/%3E%3Crect x='10' y='0' width='10' height='10' fill='%231BB1E7'/%3E%3Crect x='0' y='10' width='10' height='10' fill='%231BB1E7'/%3E%3Crect x='10' y='10' width='10' height='10' fill='%237A263A'/%3E%3C/svg%3E");
+      background-size: 20px 20px;
+      background-repeat: repeat;
+    }
 
     /* ── NAV BAR ── */
     .nav-bar {
@@ -162,8 +167,19 @@
       margin-bottom: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s;
       position: relative; cursor: pointer;
     }
-    .quiz-card:hover { border-color: var(--claret); box-shadow: 0 4px 24px rgba(122,38,58,0.15); }
-    .quiz-card.expanded { border-color: var(--sky); cursor: default; }
+    .quiz-card.upcoming-card {
+      background: #151d2a;
+      border-left: 3px solid rgba(27,177,231,0.4);
+    }
+    .quiz-card.past-card {
+      background: #1a1520;
+      border-left: 3px solid rgba(122,38,58,0.4);
+    }
+    .quiz-card.upcoming-card:hover { border-color: var(--sky); box-shadow: 0 4px 24px rgba(27,177,231,0.12); }
+    .quiz-card.past-card:hover { border-color: var(--claret); box-shadow: 0 4px 24px rgba(122,38,58,0.15); }
+    .quiz-card.expanded { cursor: default; }
+    .quiz-card.upcoming-card.expanded { border-color: var(--sky); }
+    .quiz-card.past-card.expanded { border-color: var(--claret); }
     .quiz-card-top {
       display: flex; align-items: flex-start;
       justify-content: space-between; gap: 1rem; margin-bottom: 0.5rem;
@@ -197,23 +213,7 @@
     }
     .quiz-card.expanded .card-expanded { display: block; }
 
-    .card-action-row {
-      display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.8rem;
-    }
-    .btn-card-action {
-      background: none; border: 1px solid var(--border); color: var(--muted);
-      padding: 0.3rem 0.8rem; border-radius: 20px; cursor: pointer;
-      font-family: 'SpecialElite', serif; font-size: 0.76rem;
-      transition: all 0.15s; letter-spacing: 0.04em;
-    }
-    .btn-card-action:hover { border-color: var(--sky); color: var(--sky); }
-    .btn-card-action.danger:hover { border-color: #b03030; color: #e06060; }
-    .btn-card-close {
-      margin-left: auto; background: none; border: none;
-      color: var(--muted); cursor: pointer; font-size: 0.76rem;
-      font-family: 'SpecialElite', serif; transition: color 0.15s;
-    }
-    .btn-card-close:hover { color: var(--cream); }
+
 
     /* ── RSVP ── */
     .rsvp-row { display: flex; gap: 0.45rem; flex-wrap: wrap; align-items: center; margin-bottom: 0.8rem; }
@@ -239,6 +239,13 @@
     .attendee-chip.yes   { border-color: #2a7a45; color: #6dcc88; background: rgba(30,110,58,0.12); }
     .attendee-chip.no    { border-color: #7a2a2a; color: #dd6666; background: rgba(110,30,30,0.12); }
     .attendee-chip.maybe { border-color: #6a5a20; color: #ccaa44; background: rgba(74,61,16,0.12); }
+    .attendee-chip { display: inline-flex; align-items: center; gap: 0.25rem; }
+    .chip-remove {
+      background: none; border: none; color: #e06060;
+      cursor: pointer; font-size: 0.62rem; padding: 0;
+      line-height: 1; transition: color 0.15s;
+    }
+    .chip-remove:hover { color: #ff4444; }
 
     /* ── BILL SECTION ── */
     .bill-section {
@@ -253,6 +260,16 @@
     .bill-info { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.5rem; }
     .bill-info strong { color: var(--cream); }
     .bill-paid-list { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.6rem; }
+    .bill-payer {
+      font-size: 0.85rem; color: var(--cream); margin-bottom: 0.3rem;
+      display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+    }
+    .bill-payer strong { color: var(--sky); }
+    .bill-unpayer-btn {
+      background: none; border: none; color: #e06060;
+      cursor: pointer; font-size: 0.65rem; padding: 0; line-height: 1; transition: color 0.15s;
+    }
+    .bill-unpayer-btn:hover { color: #ff4444; }
     .bill-paid-chip {
       font-size: 0.74rem; padding: 0.1rem 0.6rem;
       border-radius: 20px; border: 1px solid #2a7a45;
@@ -361,6 +378,32 @@
 
     /* ── RESULT LINE ── */
     .result-line { margin-top: 0.5rem; font-style: italic; color: var(--yellow); font-size: 0.9rem; }
+
+    /* collapsed summary */
+    .collapsed-summary {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-top: 0.4rem; font-size: 0.78rem;
+    }
+    .cs-going { color: #6dcc88; }
+    .cs-maybe { color: #ccaa44; }
+    .past-summary span { color: var(--muted); }
+    .past-summary span:first-child { color: var(--yellow); }
+
+    /* corner action buttons */
+    .card-corner-actions {
+      position: absolute; top: 0.8rem; right: 0.8rem;
+      display: flex; gap: 0.3rem;
+    }
+    .btn-corner-edit, .btn-corner-delete, .btn-corner-close {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); cursor: pointer;
+      width: 28px; height: 28px; font-size: 0.78rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; color: var(--muted);
+    }
+    .btn-corner-edit:hover { border-color: var(--sky); color: var(--sky); }
+    .btn-corner-delete:hover { border-color: #b03030; color: #e06060; }
+    .btn-corner-close:hover { border-color: var(--muted); color: var(--cream); }
 
     .result-section { margin-top: 0.8rem; }
     .result-display {
@@ -528,7 +571,13 @@
     }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
-    .bottom-rule { height: 5px; background: linear-gradient(90deg, #1BB1E7 50%, #7A263A 50%); margin-top: 3rem; }
+    .bottom-rule {
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Crect x='0' y='0' width='10' height='10' fill='%231BB1E7'/%3E%3Crect x='10' y='0' width='10' height='10' fill='%237A263A'/%3E%3Crect x='0' y='10' width='10' height='10' fill='%237A263A'/%3E%3Crect x='10' y='10' width='10' height='10' fill='%231BB1E7'/%3E%3C/svg%3E");
+      background-size: 20px 20px;
+      background-repeat: repeat;
+      margin-top: 3rem;
+    }
 
     @media (max-width: 480px) {
       .form-grid { grid-template-columns: 1fr; }
@@ -583,7 +632,7 @@
           <option value="17:00">17:00</option>
           <option value="17:30">17:30</option>
           <option value="18:00">18:00</option>
-          <option value="18:30">18:30</option>
+          <option value="18:30" selected>18:30</option>
           <option value="19:00">19:00</option>
           <option value="19:30">19:30</option>
           <option value="20:00">20:00</option>
@@ -751,9 +800,9 @@
     const venueUrl = (q.venue === DEFAULT_VENUE || !q.venue) ? DEFAULT_VENUE_URL : null;
 
     const chips = [
-      ...yes.map(n   => `<span class="attendee-chip yes">${n}</span>`),
-      ...maybe.map(n => `<span class="attendee-chip maybe">${n}?</span>`),
-      ...no.map(n    => `<span class="attendee-chip no">${n}</span>`)
+      ...yes.map(n   => `<span class="attendee-chip yes">${n}${n===currentMember ? ` <button class="chip-remove" onclick="rsvp('${q.id}','yes');event.stopPropagation()" title="Odhlásiť">✕</button>` : ''}</span>`),
+      ...maybe.map(n => `<span class="attendee-chip maybe">${n}?${n===currentMember ? ` <button class="chip-remove" onclick="rsvp('${q.id}','maybe');event.stopPropagation()" title="Odhlásiť">✕</button>` : ''}</span>`),
+      ...no.map(n    => `<span class="attendee-chip no">${n}${n===currentMember ? ` <button class="chip-remove" onclick="rsvp('${q.id}','no');event.stopPropagation()" title="Odhlásiť">✕</button>` : ''}</span>`)
     ].join('');
 
     const rsvpSection = `
@@ -783,10 +832,10 @@
 
     const expandedContent = isExpanded ? `
       <div class="card-expanded">
-        <div class="card-action-row">
-          <button class="btn-card-action" onclick="editQuiz('${q.id}');event.stopPropagation()">✎ Edit</button>
-          <button class="btn-card-action danger" onclick="deleteQuiz('${q.id}');event.stopPropagation()">✕ Delete</button>
-          <button class="btn-card-close" onclick="expandedCard=null;render();event.stopPropagation()">▲ Close</button>
+        <div class="card-corner-actions">
+          <button class="btn-corner-edit" onclick="editQuiz('${q.id}');event.stopPropagation()" title="Edit">✎</button>
+          <button class="btn-corner-delete" onclick="deleteQuiz('${q.id}');event.stopPropagation()" title="Delete">🗑</button>
+          <button class="btn-corner-close" onclick="expandedCard=null;render();event.stopPropagation()" title="Close">✕</button>
         </div>
         ${rsvpSection}
         ${resultLine}
@@ -796,8 +845,30 @@
       </div>` : `
       <div class="card-expanded" style="display:none"></div>`;
 
+    // Collapsed summary
+    let collapsedSummary = '';
+    if (!isExpanded) {
+      if (!isPast) {
+        // upcoming: show attendee count
+        const goingNames = yes.join(', ');
+        collapsedSummary = `<div class="collapsed-summary">
+          <span class="cs-going">${yes.length ? `✓ ${goingNames}` : 'No RSVPs yet'}</span>
+          ${maybe.length ? `<span class="cs-maybe">~ ${maybe.length} maybe</span>` : ''}
+        </div>`;
+      } else {
+        // past: show result + who paid restaurant + who sent money
+        const placement = q.placement, totalTeams = q.total_teams, points = q.points;
+        const qBill = bills.find(b => b.quiz_id === q.id);
+        let pastBits = [];
+        if (placement) pastBits.push(`🏆 ${placement}${totalTeams ? '/'+totalTeams : ''}${points ? ' · 🎯'+points+'/49' : ''}`);
+        if (qBill && qBill.payer) pastBits.push(`🧾 ${qBill.payer}`);
+        if (qBill && qBill.paid_by && qBill.paid_by.length) pastBits.push(`💸 ${qBill.paid_by.join(', ')}`);
+        if (pastBits.length) collapsedSummary = `<div class="collapsed-summary past-summary">${pastBits.map(b => `<span>${b}</span>`).join('')}</div>`;
+      }
+    }
+
     return `
-    <div class="quiz-card ${isExpanded ? 'expanded' : ''}" onclick="toggleCard('${q.id}')">
+    <div class="quiz-card ${isPast ? 'past-card' : 'upcoming-card'} ${isExpanded ? 'expanded' : ''}" onclick="toggleCard('${q.id}')">
       <div class="quiz-card-top">
         <div class="quiz-title">${q.title}${isPast ? ' <span class="past-badge">past</span>' : ''}</div>
         <div class="quiz-date-badge">${fmtDate(d)} · ${d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>
@@ -805,8 +876,8 @@
       <div class="quiz-venue">
         📍 ${venueUrl ? `<a href="${venueUrl}" target="_blank" onclick="event.stopPropagation()">${venueDisplay}</a>` : venueDisplay}
       </div>
-      ${q.notes ? `<div class="quiz-meta" style="font-size:0.8rem;color:var(--muted);margin-bottom:0.4rem;">📝 ${q.notes}</div>` : ''}
-      ${!isExpanded ? '<div class="quiz-expand-hint">tap to expand</div>' : ''}
+      ${q.notes && !isExpanded ? `<div class="quiz-meta" style="font-size:0.8rem;color:var(--muted);margin-bottom:0.3rem;">📝 ${q.notes}</div>` : ''}
+      ${collapsedSummary}
       ${expandedContent}
     </div>`;
   }
@@ -833,18 +904,32 @@
         </div>`;
     }
 
-    const paidList = (qBill.paid_by || []).map(n => {
+    const paidBy = qBill.paid_by || [];
+    const paidList = paidBy.map(n => {
       const isMe = n === currentMember;
       return `<span class="bill-paid-chip">✓ ${n}${isMe ? ` <button class="bill-unpaid-btn" onclick="unmarkPaid('${quizId}');event.stopPropagation()" title="Zrušiť">✕</button>` : ''}</span>`;
     }).join('');
 
+    // Who paid the restaurant bill (payer field)
+    const payerDisplay = qBill.payer
+      ? `<div class="bill-payer">🧾 Účet zaplatil/a: <strong>${qBill.payer}</strong>${qBill.payer === currentMember ? ` <button class="bill-unpayer-btn" onclick="setPayer('${quizId}', null);event.stopPropagation()" title="Zrušiť">✕</button>` : ''}</div>`
+      : `<div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+          <span style="font-size:0.78rem;color:var(--muted);font-style:italic;">Kto zaplatil reštauráciu?</span>
+          <select id="payer-sel-${quizId}" onclick="event.stopPropagation()" style="background:var(--bg);border:1px solid var(--border);color:var(--cream);padding:0.25rem 0.5rem;border-radius:var(--radius-sm);font-family:'SpecialElite',serif;font-size:0.8rem;">
+            <option value="">— vyber —</option>
+            ${MEMBERS.map(m => `<option value="${m}">${m}</option>`).join('')}
+          </select>
+          <button class="btn-add-q" onclick="setPayerFromSelect('${quizId}');event.stopPropagation()" style="padding:0.25rem 0.7rem;">OK</button>
+        </div>`;
+
     return `
       <div class="bill-section">
         <h4>💳 Účet</h4>
-        ${qBill.amount ? `<div class="bill-info">Suma: <strong>€${qBill.amount}</strong></div>` : ''}
+        ${payerDisplay}
+        ${qBill.amount ? `<div class="bill-info" style="margin-top:0.4rem;">Suma: <strong>€${qBill.amount}</strong></div>` : ''}
         ${qBill.iban ? `<div class="bill-info">IBAN: <strong>${qBill.iban}</strong></div>` : ''}
-        ${paidList ? `<div class="bill-paid-list">${paidList}</div>` : ''}
-        <button class="btn-paid ${myPaid ? 'already' : ''}" onclick="${myPaid ? '' : `markPaid('${quizId}');`}event.stopPropagation()">
+        ${paidList ? `<div class="bill-paid-list" style="margin-top:0.5rem;">${paidList}</div>` : ''}
+        <button class="btn-paid ${myPaid ? 'already' : ''}" onclick="${myPaid ? '' : `markPaid('${quizId}');`}event.stopPropagation()" style="margin-top:0.5rem;">
           ${myPaid ? '✓ Zaplatené' : '💸 Zaplatil/a som'}
         </button>
       </div>`;
@@ -875,6 +960,21 @@
     await sbPatch('bills', qBill.id, { paid_by: newPaid });
     await loadData();
     toast('Zrušené.');
+  }
+
+  async function setPayerFromSelect(quizId) {
+    const sel = document.getElementById('payer-sel-' + quizId);
+    const payer = sel ? sel.value : '';
+    if (!payer) { toast('Vyber meno.'); return; }
+    await setPayer(quizId, payer);
+  }
+
+  async function setPayer(quizId, payer) {
+    const qBill = bills.find(b => b.quiz_id === quizId);
+    if (!qBill) return;
+    await sbPatch('bills', qBill.id, { payer });
+    await loadData();
+    toast(payer ? `${payer} zaplatil/a účet 🧾` : 'Zrušené.');
   }
 
   // ── QM FEE SECTION ──
@@ -1069,7 +1169,7 @@
   async function saveQuiz() {
     const title     = document.getElementById('qTitle').value.trim();
     const date      = document.getElementById('qDate').value;
-    const time      = document.getElementById('qTime').value || '19:00';
+    const time      = document.getElementById('qTime').value || '18:30';
     const venue     = document.getElementById('qVenue').value.trim() || DEFAULT_VENUE;
     const notes     = document.getElementById('qNotes').value.trim();
     const editingId = document.getElementById('editingId').value;
