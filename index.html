@@ -632,7 +632,7 @@
           <option value="17:00">17:00</option>
           <option value="17:30">17:30</option>
           <option value="18:00">18:00</option>
-          <option value="18:30" selected>18:30</option>
+          <option value="18:30">18:30</option>
           <option value="19:00">19:00</option>
           <option value="19:30">19:30</option>
           <option value="20:00">20:00</option>
@@ -1223,6 +1223,11 @@
     setTimeout(() => t.classList.remove('show'), 2600);
   }
 
+  // Always reset time select to 18:30 on load
+  document.addEventListener('DOMContentLoaded', () => {
+    const sel = document.getElementById('qTime');
+    if (sel) sel.value = '18:30';
+  });
   init();
 </script>
 </body>
