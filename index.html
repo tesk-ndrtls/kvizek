@@ -524,7 +524,7 @@
     .venue-edit-btn:hover { color: var(--yellow); }
 
     /* ── ZRÁDLO PAGE ── */
-    .zradlo-tabs { display: flex; gap: 0; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); }
+    .zradlo-tabs { display: flex; gap: 0; margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
     .zradlo-tab {
       background: none; border: none; border-bottom: 2px solid transparent;
       color: var(--muted); cursor: pointer; font-family: 'SpecialElite', serif;
@@ -534,17 +534,49 @@
     .zradlo-tab.active { color: var(--cream); border-bottom-color: var(--yellow); }
     .zradlo-content { display: none; }
     .zradlo-content.active { display: block; }
-    .menu-frame-wrap {
-      background: #fff; border-radius: var(--radius); overflow: hidden;
-      border: 1px solid var(--border);
-    }
-    .menu-frame-wrap iframe { display: block; width: 100%; border: none; }
     .brewer-link {
       display: flex; align-items: center; gap: 0.5rem;
       color: var(--sky); text-decoration: none; font-size: 0.82rem;
       margin-bottom: 0.8rem; letter-spacing: 0.04em;
     }
     .brewer-link:hover { text-decoration: underline; }
+    .menu-frame-wrap {
+      background: #fff; border-radius: var(--radius); overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .menu-frame-wrap iframe { display: block; width: 100%; border: none; }
+    .loparik-menu-header {
+      margin-bottom: 1rem; padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .lmh-title { font-size: 1rem; color: var(--yellow); letter-spacing: 0.05em; }
+    .lmh-note { font-size: 0.78rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
+    .menu-category {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--yellow); opacity: 0.7;
+      margin: 1rem 0 0.4rem; padding-bottom: 0.3rem;
+      border-bottom: 1px solid rgba(243,212,89,0.15);
+    }
+    .menu-item {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 0.8rem; padding: 0.4rem 0;
+      border-bottom: 1px solid rgba(42,48,72,0.4); font-size: 0.88rem;
+    }
+    .menu-item:last-of-type { border-bottom: none; }
+    .mi-name { color: var(--cream); flex: 1; line-height: 1.4; }
+    .mi-tag {
+      font-size: 0.68rem; color: #6dcc88;
+      background: rgba(30,110,58,0.1); border: 1px solid rgba(42,122,69,0.3);
+      padding: 0.05rem 0.4rem; border-radius: 3px; margin-left: 0.3rem;
+      white-space: nowrap;
+    }
+    .mi-price { color: var(--sky); white-space: nowrap; font-size: 0.85rem; flex-shrink: 0; }
+    .loparik-updated {
+      margin-top: 1.2rem; font-size: 0.75rem; color: var(--muted);
+      font-style: italic; text-align: right;
+    }
+    .loparik-updated a { color: var(--sky); text-decoration: none; }
+    .loparik-updated a:hover { text-decoration: underline; }
 
     /* ── MEMBER PICKER ── */
     .overlay {
@@ -671,21 +703,168 @@
 
 <!-- ŽRÁDLO PAGE -->
 <div class="page" id="page-zradlo">
-  <a class="brewer-link" href="https://www.brewer.sk" target="_blank">↗ brewer.sk</a>
   <div class="zradlo-tabs">
-    <button class="zradlo-tab active" onclick="switchZradloTab('denne')">Denné menu</button>
-    <button class="zradlo-tab" onclick="switchZradloTab('jedalny')">Jedálny lístok</button>
+    <button class="zradlo-tab active" onclick="switchZradloTab('loparik')">🥩 Lopárik</button>
+    <button class="zradlo-tab" onclick="switchZradloTab('brewer')">🍺 Brewer</button>
   </div>
-  <div class="zradlo-content active" id="zt-denne">
-    <div class="menu-frame-wrap">
-      <iframe src="https://docs.google.com/document/d/1YiQcLB5Wy3sn3Lo3SgZy6oIvg3qp5shzb-1D4OLgQe0/preview" height="600" title="Denné menu"></iframe>
+
+  <!-- LOPÁRIK -->
+  <div class="zradlo-content active" id="zt-loparik">
+    <a class="brewer-link" href="https://restauracialoparik.sk" target="_blank">↗ restauracialoparik.sk</a>
+    <div class="zradlo-tabs" style="margin-top:0.2rem;">
+      <button class="zradlo-tab active" onclick="switchZradloSubTab('loparik','denne')">Týždenné</button>
+      <button class="zradlo-tab" onclick="switchZradloSubTab('loparik','jedalny')">Jedálny lístok</button>
+      <button class="zradlo-tab" onclick="switchZradloSubTab('loparik','napoje')">Nápoje</button>
     </div>
-  </div>
-  <div class="zradlo-content" id="zt-jedalny">
-    <div class="menu-frame-wrap" style="margin-bottom:1rem;">
-      <iframe src="https://drive.google.com/file/d/1gXGHN6fTFkM3t1jg07c424AusXPmZyi7/preview" height="600" title="Jedálny lístok"></iframe>
+
+    <div class="zradlo-content active" id="lp-denne">
+    <div class="loparik-menu-header">
+      <div class="lmh-title">22.6 – 26.6.2026</div>
+      <div class="lmh-note">Podávané od 11:00 do vypredania · Polievka v cene</div>
     </div>
+
+    <div class="menu-category">Špeciál menu Lopárik</div>
+    <div class="menu-item">
+      <span class="mi-name">Flank steak s domácimi hranolkami a demiglace omáčkou <span class="mi-tag">bez lepku, bez laktózy</span></span>
+      <span class="mi-price">€14,90</span>
+    </div>
+    <div class="menu-item">
+      <span class="mi-name">Steak z lososa atlantického s jemnou zemiakovou kašou a mangovou salsou <span class="mi-tag">bez lepku</span></span>
+      <span class="mi-price">€14,90</span>
+    </div>
+
+    <div class="menu-category">Tradičná kuchyňa</div>
+    <div class="menu-item">
+      <span class="mi-name">Jemne pikantné bravčové soté s ryžou <span class="mi-tag">bez lepku, bez laktózy</span></span>
+      <span class="mi-price">€10,90</span>
+    </div>
+    <div class="menu-item">
+      <span class="mi-name">Marinovaný kurací rezeň v kukuričných lupienkoch so zemiakovou kašou a cviklovým šalátom</span>
+      <span class="mi-price">€10,90</span>
+    </div>
+
+    <div class="menu-category">Klasika Lopárik</div>
+    <div class="menu-item">
+      <span class="mi-name">Kuracia pečienka na gazdovský spôsob s ryžou a smaženou cibuľkou <span class="mi-tag">bez laktózy</span></span>
+      <span class="mi-price">€10,90</span>
+    </div>
+
+    <div class="menu-category">Fit menu</div>
+    <div class="menu-item">
+      <span class="mi-name">Cuketové mini placky s tzatziky šalátom a vyprážanými bryndzovými guličkami</span>
+      <span class="mi-price">€10,90</span>
+    </div>
+
+    <div class="menu-category">Polievky (v cene menu)</div>
+    <div class="menu-item">
+      <span class="mi-name">Paradajková polievka s bazalkou <span class="mi-tag">bez lepku, bez laktózy</span></span>
+    </div>
+    <div class="menu-item">
+      <span class="mi-name">Slepačí vývar s pečeňovými guľkami <span class="mi-tag">bez laktózy</span></span>
+    </div>
+
+    <div class="loparik-updated">Aktualizované: 22.6.2026 · <a href="https://restauracialoparik.sk/#jedalny-listok" target="_blank">restauracialoparik.sk</a></div>
   </div>
+
+    <div class="zradlo-content" id="lp-jedalny">
+    <div class="menu-category">Na zobnutie</div>
+    <div class="menu-item"><span class="mi-name">Šmirkas – bryndzová nátierka, kváskový chlieb</span><span class="mi-price">€7,50</span></div>
+    <div class="menu-item"><span class="mi-name">Oškvarková nátierka, kváskový chlieb</span><span class="mi-price">€7,50</span></div>
+    <div class="menu-item"><span class="mi-name">Podpecník s bryndzou, slaninou a klobásou</span><span class="mi-price">€7,50</span></div>
+    <div class="menu-item"><span class="mi-name">Tatarák zo sviečkovice, hrianky</span><span class="mi-price">€14,90</span></div>
+    <div class="menu-item"><span class="mi-name">Kačacia paštéta s brusnicovým želé, hrianky</span><span class="mi-price">€7,50</span></div>
+
+    <div class="menu-category">Polievky</div>
+    <div class="menu-item"><span class="mi-name">Slepačí vývar s domácimi rezancami</span><span class="mi-price">€4,90</span></div>
+    <div class="menu-item"><span class="mi-name">Demikát so slaným prachom <span class="mi-tag">bez lepku</span></span><span class="mi-price">€5,90</span></div>
+    <div class="menu-item"><span class="mi-name">Kapustnica Lopárik, kyslá smotana, kváskový chlieb</span><span class="mi-price">€6,50</span></div>
+
+    <div class="menu-category">Hlavné jedlá</div>
+    <div class="menu-item"><span class="mi-name">Bryndzové halušky so slaninkou a pažítkou</span><span class="mi-price">€12,90</span></div>
+    <div class="menu-item"><span class="mi-name">Kapustové strapačky so slaninkou a cibuľkou</span><span class="mi-price">€12,90</span></div>
+    <div class="menu-item"><span class="mi-name">Domáce pirohy s údenými zemiakmi a bryndzou, kyslá smotana</span><span class="mi-price">€13,60</span></div>
+    <div class="menu-item"><span class="mi-name">LOPÁRIK misa pre dvoch (halušky, strapačky, pirohy)</span><span class="mi-price">€33,00</span></div>
+    <div class="menu-item"><span class="mi-name">Vyprážaný údený oštiepok s opekanými zemiakmi</span><span class="mi-price">€15,90</span></div>
+    <div class="menu-item"><span class="mi-name">Vyprážaný teľací rezeň, domáci zemiakový šalát</span><span class="mi-price">€21,90</span></div>
+    <div class="menu-item"><span class="mi-name">Kuracie prsia supreme, zemiakové pyré, glazovaná baby mrkva</span><span class="mi-price">€16,90</span></div>
+    <div class="menu-item"><span class="mi-name">Sviečková na smotane, domáca parená knedľa</span><span class="mi-price">€16,60</span></div>
+    <div class="menu-item"><span class="mi-name">Steak z pravej sviečkovice, pečené baby zemiaky, omáčka zo zeleného korenia <span class="mi-tag">bez lepku</span></span><span class="mi-price">€36,90</span></div>
+    <div class="menu-item"><span class="mi-name">Jelení guláš na červenom víne so žemľovou knedľou</span><span class="mi-price">€18,50</span></div>
+    <div class="menu-item"><span class="mi-name">Kačacie prsia sous vide na kapustovom pyré</span><span class="mi-price">€19,90</span></div>
+    <div class="menu-item"><span class="mi-name">Filet zo pstruha s grilovanou zelenou špargľou a holandskou omáčkou <span class="mi-tag">bez lepku</span></span><span class="mi-price">€16,90</span></div>
+    <div class="menu-item"><span class="mi-name">Panvička Lopárik – kuracia, so sezónnou zeleninou <span class="mi-tag">bez lepku, bez laktózy</span></span><span class="mi-price">€15,90</span></div>
+    <div class="menu-item"><span class="mi-name">Krémové hráškové rizoto <span class="mi-tag">bez lepku</span></span><span class="mi-price">€14,90</span></div>
+
+    <div class="menu-category">Dezerty</div>
+    <div class="menu-item"><span class="mi-name">Žemľovka Lopárik so škoricou, zmrzlina</span><span class="mi-price">€7,50</span></div>
+    <div class="menu-item"><span class="mi-name">Babičkine perky so slivkovým lekvárom</span><span class="mi-price">€9,50</span></div>
+    <div class="menu-item"><span class="mi-name">Palacinka Lopárik s čokoládovo-tvarohovou penou</span><span class="mi-price">€9,50</span></div>
+    <div class="menu-item"><span class="mi-name">Gaštanové pyré so šľahačkou</span><span class="mi-price">€5,90</span></div>
+
+    <div class="loparik-updated"><a href="https://restauracialoparik.sk/#jedalny-listok" target="_blank">Plný jedálny lístok na restauracialoparik.sk ↗</a></div>
+  </div>
+
+    <div class="zradlo-content" id="lp-napoje">
+    <div class="menu-category">Čapované pivá</div>
+    <div class="menu-item"><span class="mi-name">Pilsner Urquell</span><span class="mi-price">€2,80 / 0,3l · €3,30 / 0,5l</span></div>
+    <div class="menu-item"><span class="mi-name">Palatin 11</span><span class="mi-price">€2,70 / 0,3l · €3,00 / 0,5l</span></div>
+    <div class="menu-item"><span class="mi-name">Kofola čapovaná</span><span class="mi-price">€2,60 / 0,3l · €3,00 / 0,5l</span></div>
+
+    <div class="menu-category">Limonády Lopárik</div>
+    <div class="menu-item"><span class="mi-name">Mango pomaranč</span><span class="mi-price">€4,30 / 0,5l</span></div>
+    <div class="menu-item"><span class="mi-name">Lesná zmes</span><span class="mi-price">€4,30 / 0,5l</span></div>
+    <div class="menu-item"><span class="mi-name">Domáca citronáda</span><span class="mi-price">€4,00 / 0,5l</span></div>
+
+    <div class="menu-category">Miešané drinky</div>
+    <div class="menu-item"><span class="mi-name">Aperol Spritz</span><span class="mi-price">€7,90</span></div>
+    <div class="menu-item"><span class="mi-name">Hugo</span><span class="mi-price">€6,90</span></div>
+    <div class="menu-item"><span class="mi-name">Gin Tonic</span><span class="mi-price">€5,90</span></div>
+    <div class="menu-item"><span class="mi-name">Cuba Libre</span><span class="mi-price">€7,90</span></div>
+
+    <div class="menu-category">Vína (fľaša)</div>
+    <div class="menu-item"><span class="mi-name">Kamenný kvet (Domin Kušický)</span><span class="mi-price">€26,00</span></div>
+    <div class="menu-item"><span class="mi-name">Sauvignon Blanc (Velkeer)</span><span class="mi-price">€27,00</span></div>
+    <div class="menu-item"><span class="mi-name">Devín (Selešťany)</span><span class="mi-price">€27,00</span></div>
+    <div class="menu-item"><span class="mi-name">Primitivo Salento</span><span class="mi-price">€33,00</span></div>
+    <div class="menu-item"><span class="mi-name">Prosecco (fľaša)</span><span class="mi-price">€29,90</span></div>
+
+    <div class="menu-category">Teplé nápoje</div>
+    <div class="menu-item"><span class="mi-name">Espresso / Lungo</span><span class="mi-price">€2,80</span></div>
+    <div class="menu-item"><span class="mi-name">Cappuccino / Latte</span><span class="mi-price">€2,90</span></div>
+    <div class="menu-item"><span class="mi-name">Horúca čokoláda</span><span class="mi-price">€3,90</span></div>
+
+    <div class="loparik-updated"><a href="https://restauracialoparik.sk/#jedalny-listok" target="_blank">Plný nápojový lístok na restauracialoparik.sk ↗</a></div>
+  </div>
+  </div><!-- end zt-loparik -->
+
+  <!-- BREWER -->
+  <div class="zradlo-content" id="zt-brewer">
+    <a class="brewer-link" href="https://www.brewer.sk" target="_blank">↗ brewer.sk</a>
+    <div class="zradlo-tabs" style="margin-top:0.2rem;">
+      <button class="zradlo-tab active" onclick="switchZradloSubTab('brewer','jedlo')">Jedlo</button>
+      <button class="zradlo-tab" onclick="switchZradloSubTab('brewer','pivo')">Pivá</button>
+      <button class="zradlo-tab" onclick="switchZradloSubTab('brewer','napoje')">Nápoje</button>
+    </div>
+
+    <div class="zradlo-content active" id="bw-jedlo">
+      <div class="menu-frame-wrap">
+        <iframe src="https://drive.google.com/file/d/1gXGHN6fTFkM3t1jg07c424AusXPmZyi7/preview" height="600" title="Brewer jedálny lístok"></iframe>
+      </div>
+    </div>
+
+    <div class="zradlo-content" id="bw-pivo">
+      <div class="menu-frame-wrap">
+        <iframe src="https://drive.google.com/file/d/1CTicJacHFQQmCRL7SGfsfoxlMFEFvvqt/preview" height="600" title="Brewer nápojový lístok"></iframe>
+      </div>
+    </div>
+
+    <div class="zradlo-content" id="bw-napoje">
+      <div class="loparik-updated" style="margin-top:0;margin-bottom:0.8rem;">
+        Nápojový lístok je súčasťou PDF vyššie (záložka Pivá).
+      </div>
+    </div>
+  </div><!-- end zt-brewer -->
+
 </div>
 
 <div class="bottom-rule"></div>
@@ -769,10 +948,21 @@
   }
 
   function switchZradloTab(tab) {
-    document.querySelectorAll('.zradlo-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.zradlo-content').forEach(c => c.classList.remove('active'));
-    document.querySelector(`.zradlo-tab[onclick*="${tab}"]`).classList.add('active');
+    // Top-level tabs (Lopárik / Brewer)
+    const page = document.getElementById('page-zradlo');
+    page.querySelectorAll(':scope > .zradlo-tabs > .zradlo-tab').forEach(t => t.classList.remove('active'));
+    page.querySelectorAll(':scope > .zradlo-content').forEach(c => c.classList.remove('active'));
+    page.querySelector(`.zradlo-tab[onclick*="'${tab}'"]`).classList.add('active');
     document.getElementById('zt-' + tab).classList.add('active');
+  }
+
+  function switchZradloSubTab(restaurant, tab) {
+    const prefix = restaurant === 'loparik' ? 'lp' : 'bw';
+    const container = document.getElementById('zt-' + restaurant);
+    container.querySelectorAll(':scope > .zradlo-tabs > .zradlo-tab').forEach(t => t.classList.remove('active'));
+    container.querySelectorAll(':scope > .zradlo-content').forEach(c => c.classList.remove('active'));
+    container.querySelector(`.zradlo-tab[onclick*="'${tab}'"]`).classList.add('active');
+    document.getElementById(prefix + '-' + tab).classList.add('active');
   }
 
   // ── RENDER ──
