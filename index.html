@@ -534,10 +534,12 @@
     .zradlo-tab.active { color: var(--cream); border-bottom-color: var(--yellow); }
     .zradlo-content { display: none; }
     .zradlo-content.active { display: block; }
+    .resto-header { margin-bottom: 0.8rem; }
+    .resto-address { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
     .brewer-link {
       display: flex; align-items: center; gap: 0.5rem;
       color: var(--sky); text-decoration: none; font-size: 0.82rem;
-      margin-bottom: 0.8rem; letter-spacing: 0.04em;
+      letter-spacing: 0.04em;
     }
     .brewer-link:hover { text-decoration: underline; }
     .menu-frame-wrap {
@@ -710,164 +712,30 @@
 
   <!-- LOPÁRIK -->
   <div class="zradlo-content active" id="zt-loparik">
-    <a class="brewer-link" href="https://restauracialoparik.sk" target="_blank">↗ restauracialoparik.sk</a>
-    <div class="zradlo-tabs" style="margin-top:0.2rem;">
-      <button class="zradlo-tab active" onclick="switchZradloSubTab('loparik','denne')">Týždenné</button>
-      <button class="zradlo-tab" onclick="switchZradloSubTab('loparik','jedalny')">Jedálny lístok</button>
-      <button class="zradlo-tab" onclick="switchZradloSubTab('loparik','napoje')">Nápoje</button>
+    <div class="resto-header">
+      <a class="brewer-link" href="https://restauracialoparik.sk" target="_blank">↗ restauracialoparik.sk</a>
+      <div class="resto-address">📍 Tomášikova 40-41, Bratislava</div>
     </div>
-
-    <div class="zradlo-content active" id="lp-denne">
-    <div class="loparik-menu-header">
-      <div class="lmh-title">22.6 – 26.6.2026</div>
-      <div class="lmh-note">Podávané od 11:00 do vypredania · Polievka v cene</div>
+    <div class="menu-frame-wrap">
+      <iframe src="https://restauracialoparik.sk/jedalny-listok/" height="700" title="Lopárik jedálny lístok" style="width:100%;border:none;border-radius:var(--radius);"></iframe>
     </div>
-
-    <div class="menu-category">Špeciál menu Lopárik</div>
-    <div class="menu-item">
-      <span class="mi-name">Flank steak s domácimi hranolkami a demiglace omáčkou <span class="mi-tag">bez lepku, bez laktózy</span></span>
-      <span class="mi-price">€14,90</span>
-    </div>
-    <div class="menu-item">
-      <span class="mi-name">Steak z lososa atlantického s jemnou zemiakovou kašou a mangovou salsou <span class="mi-tag">bez lepku</span></span>
-      <span class="mi-price">€14,90</span>
-    </div>
-
-    <div class="menu-category">Tradičná kuchyňa</div>
-    <div class="menu-item">
-      <span class="mi-name">Jemne pikantné bravčové soté s ryžou <span class="mi-tag">bez lepku, bez laktózy</span></span>
-      <span class="mi-price">€10,90</span>
-    </div>
-    <div class="menu-item">
-      <span class="mi-name">Marinovaný kurací rezeň v kukuričných lupienkoch so zemiakovou kašou a cviklovým šalátom</span>
-      <span class="mi-price">€10,90</span>
-    </div>
-
-    <div class="menu-category">Klasika Lopárik</div>
-    <div class="menu-item">
-      <span class="mi-name">Kuracia pečienka na gazdovský spôsob s ryžou a smaženou cibuľkou <span class="mi-tag">bez laktózy</span></span>
-      <span class="mi-price">€10,90</span>
-    </div>
-
-    <div class="menu-category">Fit menu</div>
-    <div class="menu-item">
-      <span class="mi-name">Cuketové mini placky s tzatziky šalátom a vyprážanými bryndzovými guličkami</span>
-      <span class="mi-price">€10,90</span>
-    </div>
-
-    <div class="menu-category">Polievky (v cene menu)</div>
-    <div class="menu-item">
-      <span class="mi-name">Paradajková polievka s bazalkou <span class="mi-tag">bez lepku, bez laktózy</span></span>
-    </div>
-    <div class="menu-item">
-      <span class="mi-name">Slepačí vývar s pečeňovými guľkami <span class="mi-tag">bez laktózy</span></span>
-    </div>
-
-    <div class="loparik-updated">Aktualizované: 22.6.2026 · <a href="https://restauracialoparik.sk/#jedalny-listok" target="_blank">restauracialoparik.sk</a></div>
+    <div class="loparik-updated"><a href="https://restauracialoparik.sk/jedalny-listok/" target="_blank">Otvoriť na restauracialoparik.sk ↗</a></div>
   </div>
-
-    <div class="zradlo-content" id="lp-jedalny">
-    <div class="menu-category">Na zobnutie</div>
-    <div class="menu-item"><span class="mi-name">Šmirkas – bryndzová nátierka, kváskový chlieb</span><span class="mi-price">€7,50</span></div>
-    <div class="menu-item"><span class="mi-name">Oškvarková nátierka, kváskový chlieb</span><span class="mi-price">€7,50</span></div>
-    <div class="menu-item"><span class="mi-name">Podpecník s bryndzou, slaninou a klobásou</span><span class="mi-price">€7,50</span></div>
-    <div class="menu-item"><span class="mi-name">Tatarák zo sviečkovice, hrianky</span><span class="mi-price">€14,90</span></div>
-    <div class="menu-item"><span class="mi-name">Kačacia paštéta s brusnicovým želé, hrianky</span><span class="mi-price">€7,50</span></div>
-
-    <div class="menu-category">Polievky</div>
-    <div class="menu-item"><span class="mi-name">Slepačí vývar s domácimi rezancami</span><span class="mi-price">€4,90</span></div>
-    <div class="menu-item"><span class="mi-name">Demikát so slaným prachom <span class="mi-tag">bez lepku</span></span><span class="mi-price">€5,90</span></div>
-    <div class="menu-item"><span class="mi-name">Kapustnica Lopárik, kyslá smotana, kváskový chlieb</span><span class="mi-price">€6,50</span></div>
-
-    <div class="menu-category">Hlavné jedlá</div>
-    <div class="menu-item"><span class="mi-name">Bryndzové halušky so slaninkou a pažítkou</span><span class="mi-price">€12,90</span></div>
-    <div class="menu-item"><span class="mi-name">Kapustové strapačky so slaninkou a cibuľkou</span><span class="mi-price">€12,90</span></div>
-    <div class="menu-item"><span class="mi-name">Domáce pirohy s údenými zemiakmi a bryndzou, kyslá smotana</span><span class="mi-price">€13,60</span></div>
-    <div class="menu-item"><span class="mi-name">LOPÁRIK misa pre dvoch (halušky, strapačky, pirohy)</span><span class="mi-price">€33,00</span></div>
-    <div class="menu-item"><span class="mi-name">Vyprážaný údený oštiepok s opekanými zemiakmi</span><span class="mi-price">€15,90</span></div>
-    <div class="menu-item"><span class="mi-name">Vyprážaný teľací rezeň, domáci zemiakový šalát</span><span class="mi-price">€21,90</span></div>
-    <div class="menu-item"><span class="mi-name">Kuracie prsia supreme, zemiakové pyré, glazovaná baby mrkva</span><span class="mi-price">€16,90</span></div>
-    <div class="menu-item"><span class="mi-name">Sviečková na smotane, domáca parená knedľa</span><span class="mi-price">€16,60</span></div>
-    <div class="menu-item"><span class="mi-name">Steak z pravej sviečkovice, pečené baby zemiaky, omáčka zo zeleného korenia <span class="mi-tag">bez lepku</span></span><span class="mi-price">€36,90</span></div>
-    <div class="menu-item"><span class="mi-name">Jelení guláš na červenom víne so žemľovou knedľou</span><span class="mi-price">€18,50</span></div>
-    <div class="menu-item"><span class="mi-name">Kačacie prsia sous vide na kapustovom pyré</span><span class="mi-price">€19,90</span></div>
-    <div class="menu-item"><span class="mi-name">Filet zo pstruha s grilovanou zelenou špargľou a holandskou omáčkou <span class="mi-tag">bez lepku</span></span><span class="mi-price">€16,90</span></div>
-    <div class="menu-item"><span class="mi-name">Panvička Lopárik – kuracia, so sezónnou zeleninou <span class="mi-tag">bez lepku, bez laktózy</span></span><span class="mi-price">€15,90</span></div>
-    <div class="menu-item"><span class="mi-name">Krémové hráškové rizoto <span class="mi-tag">bez lepku</span></span><span class="mi-price">€14,90</span></div>
-
-    <div class="menu-category">Dezerty</div>
-    <div class="menu-item"><span class="mi-name">Žemľovka Lopárik so škoricou, zmrzlina</span><span class="mi-price">€7,50</span></div>
-    <div class="menu-item"><span class="mi-name">Babičkine perky so slivkovým lekvárom</span><span class="mi-price">€9,50</span></div>
-    <div class="menu-item"><span class="mi-name">Palacinka Lopárik s čokoládovo-tvarohovou penou</span><span class="mi-price">€9,50</span></div>
-    <div class="menu-item"><span class="mi-name">Gaštanové pyré so šľahačkou</span><span class="mi-price">€5,90</span></div>
-
-    <div class="loparik-updated"><a href="https://restauracialoparik.sk/#jedalny-listok" target="_blank">Plný jedálny lístok na restauracialoparik.sk ↗</a></div>
-  </div>
-
-    <div class="zradlo-content" id="lp-napoje">
-    <div class="menu-category">Čapované pivá</div>
-    <div class="menu-item"><span class="mi-name">Pilsner Urquell</span><span class="mi-price">€2,80 / 0,3l · €3,30 / 0,5l</span></div>
-    <div class="menu-item"><span class="mi-name">Palatin 11</span><span class="mi-price">€2,70 / 0,3l · €3,00 / 0,5l</span></div>
-    <div class="menu-item"><span class="mi-name">Kofola čapovaná</span><span class="mi-price">€2,60 / 0,3l · €3,00 / 0,5l</span></div>
-
-    <div class="menu-category">Limonády Lopárik</div>
-    <div class="menu-item"><span class="mi-name">Mango pomaranč</span><span class="mi-price">€4,30 / 0,5l</span></div>
-    <div class="menu-item"><span class="mi-name">Lesná zmes</span><span class="mi-price">€4,30 / 0,5l</span></div>
-    <div class="menu-item"><span class="mi-name">Domáca citronáda</span><span class="mi-price">€4,00 / 0,5l</span></div>
-
-    <div class="menu-category">Miešané drinky</div>
-    <div class="menu-item"><span class="mi-name">Aperol Spritz</span><span class="mi-price">€7,90</span></div>
-    <div class="menu-item"><span class="mi-name">Hugo</span><span class="mi-price">€6,90</span></div>
-    <div class="menu-item"><span class="mi-name">Gin Tonic</span><span class="mi-price">€5,90</span></div>
-    <div class="menu-item"><span class="mi-name">Cuba Libre</span><span class="mi-price">€7,90</span></div>
-
-    <div class="menu-category">Vína (fľaša)</div>
-    <div class="menu-item"><span class="mi-name">Kamenný kvet (Domin Kušický)</span><span class="mi-price">€26,00</span></div>
-    <div class="menu-item"><span class="mi-name">Sauvignon Blanc (Velkeer)</span><span class="mi-price">€27,00</span></div>
-    <div class="menu-item"><span class="mi-name">Devín (Selešťany)</span><span class="mi-price">€27,00</span></div>
-    <div class="menu-item"><span class="mi-name">Primitivo Salento</span><span class="mi-price">€33,00</span></div>
-    <div class="menu-item"><span class="mi-name">Prosecco (fľaša)</span><span class="mi-price">€29,90</span></div>
-
-    <div class="menu-category">Teplé nápoje</div>
-    <div class="menu-item"><span class="mi-name">Espresso / Lungo</span><span class="mi-price">€2,80</span></div>
-    <div class="menu-item"><span class="mi-name">Cappuccino / Latte</span><span class="mi-price">€2,90</span></div>
-    <div class="menu-item"><span class="mi-name">Horúca čokoláda</span><span class="mi-price">€3,90</span></div>
-
-    <div class="loparik-updated"><a href="https://restauracialoparik.sk/#jedalny-listok" target="_blank">Plný nápojový lístok na restauracialoparik.sk ↗</a></div>
-  </div>
-  </div><!-- end zt-loparik -->
 
   <!-- BREWER -->
   <div class="zradlo-content" id="zt-brewer">
-    <a class="brewer-link" href="https://www.brewer.sk" target="_blank">↗ brewer.sk</a>
-    <div class="zradlo-tabs" style="margin-top:0.2rem;">
-      <button class="zradlo-tab active" onclick="switchZradloSubTab('brewer','jedlo')">Jedlo</button>
-      <button class="zradlo-tab" onclick="switchZradloSubTab('brewer','pivo')">Pivá</button>
-      <button class="zradlo-tab" onclick="switchZradloSubTab('brewer','napoje')">Nápoje</button>
+    <div class="resto-header">
+      <a class="brewer-link" href="https://www.brewer.sk" target="_blank">↗ brewer.sk</a>
+      <div class="resto-address">📍 Šancová 14, Bratislava</div>
     </div>
-
-    <div class="zradlo-content active" id="bw-jedlo">
-      <div class="menu-frame-wrap">
-        <iframe src="https://drive.google.com/file/d/1gXGHN6fTFkM3t1jg07c424AusXPmZyi7/preview" height="600" title="Brewer jedálny lístok"></iframe>
-      </div>
+    <div class="menu-frame-wrap">
+      <iframe src="https://drive.google.com/file/d/1gXGHN6fTFkM3t1jg07c424AusXPmZyi7/preview" height="700" title="Brewer jedálny lístok"></iframe>
     </div>
-
-    <div class="zradlo-content" id="bw-pivo">
-      <div class="menu-frame-wrap">
-        <iframe src="https://drive.google.com/file/d/1CTicJacHFQQmCRL7SGfsfoxlMFEFvvqt/preview" height="600" title="Brewer nápojový lístok"></iframe>
-      </div>
-    </div>
-
-    <div class="zradlo-content" id="bw-napoje">
-      <div class="loparik-updated" style="margin-top:0;margin-bottom:0.8rem;">
-        Nápojový lístok je súčasťou PDF vyššie (záložka Pivá).
-      </div>
-    </div>
-  </div><!-- end zt-brewer -->
-
+    <div class="loparik-updated"><a href="https://www.brewer.sk/restauracia" target="_blank">Otvoriť na brewer.sk ↗</a></div>
+  </div>
 </div>
 
-<div class="bottom-rule"></div>
+<div class="bottom-rule"><div class="bottom-rule"></div>
 
 <!-- Member picker -->
 <div class="overlay" id="memberOverlay" style="display:none;">
@@ -883,7 +751,7 @@
 <script>
   const SUPABASE_URL = 'https://uzvtycilfgoaafaaxgqd.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6dnR5Y2lsZmdvYWFmYWF4Z3FkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5MzU0ODgsImV4cCI6MjA5NjUxMTQ4OH0.ogEXq3j2692e65OZyKHRLpJHm4EazFVoBco1p_DuWG8';
-  const MEMBERS = ['Tesk', 'Benne', 'Marek', 'Bran', 'Wukas', 'Saki'];
+  const MEMBERS = ['Tesk', 'Benne', 'Marek', 'Bran', 'Wukas', 'Saki', 'Sup'];
   const DEFAULT_VENUE = 'Pivovar Brewer';
   const DEFAULT_VENUE_URL = 'https://www.brewer.sk';
 
